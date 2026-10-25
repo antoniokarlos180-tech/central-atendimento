@@ -109,6 +109,7 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
 <footer class="footer"><div class="wrap footer-row"><div><b>KS Segurança Eletrônica</b><br>Central de Atendimento</div><div>Este site não acessa câmeras nem confirma automaticamente orçamentos ou visitas.<br><a class="small-link" href="#atendimentos">Voltar ao início ↑</a></div></div></footer>
 <script>
 const WHATSAPP_NUMBER = "558293673659";
+const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxETqQsx1u_vZYF6RzSISqCg2iYABdpT8xw9Hz49HkoqS8bEHw2vZqWzJ5o1s5ZUT43/exec";
 const serviceButtons = document.querySelectorAll(".service");
 const kind = document.getElementById("kind");
 serviceButtons.forEach(btn => btn.addEventListener("click", () => {
@@ -126,6 +127,25 @@ kind.addEventListener("change",updateFields); updateFields();
 document.getElementById("requestForm").addEventListener("submit",e=>{
   e.preventDefault();
   const v=id=>document.getElementById(id).value.trim();
+  const pedido = {
+    nome: v("name"),
+    telefone: v("phone"),
+    tipo: v("kind"),
+    cidade: v("city"),
+    equipamento: v("equipment") + (v("quantity") ? " — Quantidade de câmeras: " + v("quantity") : ""),
+    descricao: v("details"),
+    dataVisita: v("date"),
+    periodo: v("time")
+  };
+  // Envia o pedido à planilha em segundo plano. O navegador não consegue ler
+  // a resposta por segurança (no-cors), por isso não mostramos confirmação de gravação.
+  fetch(SHEETS_WEB_APP_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(pedido)
+  }).catch(err => console.error("Não foi possível enviar à central KS:", err));
+
   const msg = `*Solicitação pelo site — KS Segurança Eletrônica*\n\n*Nome:* ${v("name")}\n*Telefone:* ${v("phone")||"Não informado"}\n*Atendimento:* ${v("kind")}\n*Cidade/bairro:* ${v("city")}\n*Equipamento/serviço:* ${v("equipment")}\n*Quantidade de câmeras:* ${v("quantity")||"Não informado"}\n*Data preferida:* ${v("date")||"Não informada"}\n*Período:* ${v("time")}\n*Detalhes:* ${v("details")}`;
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 });
