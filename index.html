@@ -3,90 +3,118 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101827">
-<title>Central de Atendimento | Câmeras de Segurança</title>
+<meta name="theme-color" content="#0a1220">
+<title>KS Segurança Eletrônica | Central de Atendimento</title>
+<meta name="description" content="Central de atendimento KS Segurança Eletrônica: suporte, dúvidas, orçamento e agendamento de visitas.">
 <style>
-:root{--bg:#0b1220;--panel:#111c2e;--panel2:#17243a;--text:#eef4ff;--muted:#a8b6cc;--accent:#35d39a;--line:#293952;--blue:#4e8cff}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 85% 0%,#193153 0,transparent 35%),var(--bg);color:var(--text);line-height:1.5}
-.wrap{width:min(1040px,92%);margin:auto}.top{padding:24px 0 18px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#4e8cff);color:#06101b;font-size:22px}.tag{font-size:12px;color:var(--accent);border:1px solid #286b5a;padding:6px 10px;border-radius:999px;white-space:nowrap}
-.hero{padding:48px 0 30px;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}.eyebrow{color:var(--accent);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.4px}h1{font-size:clamp(34px,5vw,54px);line-height:1.06;letter-spacing:-1.8px;margin:12px 0 18px}p{margin:0 0 14px;color:var(--muted)}.hero p{font-size:17px;max-width:580px}.hero-card{background:linear-gradient(150deg,#172840,#101827);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 20px 60px #0003}.hero-card .camera{font-size:68px;line-height:1;margin-bottom:14px}.hero-card h3{margin:0 0 8px;font-size:21px}.ticks{list-style:none;padding:0;margin:18px 0 0}.ticks li{margin:9px 0;color:#dce7f7}.ticks li:before{content:"✓";color:var(--accent);font-weight:900;margin-right:10px}
-section{padding:28px 0 42px}.section-title{font-size:27px;letter-spacing:-.6px;margin:0 0 8px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.service{border:1px solid var(--line);border-radius:18px;padding:20px;background:#101b2c;cursor:pointer;transition:.18s;min-height:170px}.service:hover,.service.active{border-color:var(--accent);background:#15283a;transform:translateY(-2px)}.ico{font-size:27px;margin-bottom:10px}.service h3{font-size:16px;margin:0 0 7px}.service p{font-size:13px;margin:0}.form-panel{border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--panel);display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-panel .full{grid-column:1/-1}label{display:block;font-size:13px;color:#d9e4f5;font-weight:700;margin-bottom:6px}input,select,textarea{width:100%;background:#0b1423;color:var(--text);border:1px solid #34455f;border-radius:11px;padding:12px 13px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent)}textarea{min-height:110px;resize:vertical}.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:800;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}.primary{background:var(--accent);color:#06150f}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.hint{font-size:12px;color:var(--muted);margin-top:7px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{padding:18px;border-radius:16px;border:1px solid var(--line);background:#101b2c}.step b{display:block;margin-bottom:5px}.step span{color:var(--muted);font-size:13px}.footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:12px}.notice{border:1px solid #7a5b26;background:#2b2416;color:#ffe2a6;border-radius:12px;padding:12px 14px;font-size:13px;margin:16px 0}
-@media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:28px}.cards{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}.form-panel{grid-template-columns:1fr}.form-panel .full{grid-column:auto}.tag{display:none}}
-@media(max-width:420px){.cards{grid-template-columns:1fr}.top{align-items:flex-start}}
+:root{--bg:#09111e;--panel:#101d30;--panel2:#162740;--text:#f4f7fc;--muted:#afbdd0;--line:#2b3d56;--gold:#d7b56d;--blue:#77aaff;--green:#6ee7b7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 85% 0%,#1b3150 0,transparent 34%),var(--bg);color:var(--text);line-height:1.55}
+.wrap{width:min(1120px,92%);margin:auto}.top{padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.3px}.logo{width:48px;height:48px;border:1px solid #947b48;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#29364a,#111b2b);color:var(--gold);font-size:20px;font-weight:900}.brand small{display:block;color:var(--muted);font-weight:500;font-size:12px;letter-spacing:0}.tag{font-size:11px;color:var(--gold);border:1px solid #6e5c37;padding:7px 11px;border-radius:999px;letter-spacing:.7px}
+.hero{padding:45px 0 36px;display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center}.eyebrow{color:var(--gold);font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:1.7px}h1{font-size:clamp(35px,5vw,59px);line-height:1.04;letter-spacing:-1.8px;margin:13px 0 18px}h1 em{font-style:normal;color:var(--gold)}p{margin:0 0 14px;color:var(--muted)}.hero p{font-size:17px;max-width:590px}.hero-card{background:linear-gradient(150deg,#1b2d46,#101a2a);border:1px solid var(--line);border-radius:25px;padding:25px;box-shadow:0 20px 65px #0004}.camera{font-size:58px;margin-bottom:12px}.hero-card h3{margin:0 0 7px;font-size:21px}.ticks{list-style:none;padding:0;margin:18px 0 0}.ticks li{margin:9px 0;color:#e0e8f3}.ticks li:before{content:"✓";color:var(--gold);font-weight:900;margin-right:10px}
+.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:.18s}.btn:hover{transform:translateY(-1px)}.primary{background:var(--gold);color:#17130b}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.green{background:#25d366;color:#062b15}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter-spacing:-.6px;margin:0 0 7px}.section-sub{max-width:740px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.service{width:100%;text-align:left;border:1px solid var(--line);border-radius:18px;padding:19px;background:#101b2c;cursor:pointer;transition:.18s;min-height:170px;color:var(--text)}.service:hover,.service.active{border-color:var(--gold);background:#19283c;transform:translateY(-2px)}.ico{font-size:26px;margin-bottom:10px}.service h3{font-size:16px;margin:0 0 7px}.service p{font-size:13px;margin:0}
+.form-panel{border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--panel);display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{display:block;font-size:13px;color:#d9e4f5;font-weight:750;margin-bottom:6px}input,select,textarea{width:100%;background:#091321;color:var(--text);border:1px solid #34465f;border-radius:11px;padding:12px 13px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold)}textarea{min-height:110px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin-top:7px}.notice{border:1px solid #6e5c37;background:#292416;color:#f6e2b7;border-radius:12px;padding:12px 14px;font-size:13px;margin:16px 0}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{padding:19px;border-radius:16px;border:1px solid var(--line);background:#101b2c}.step b{display:block;margin-bottom:5px}.step span{color:var(--muted);font-size:13px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.faq{border:1px solid var(--line);background:#101b2c;border-radius:14px;padding:16px}.faq summary{cursor:pointer;font-weight:750}.faq p{font-size:14px;margin:10px 0 0}
+.chat-box{border:1px solid var(--line);background:var(--panel);border-radius:22px;overflow:hidden}.chat-head{padding:17px 20px;background:#17263b;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}.chat-dot{width:11px;height:11px;background:var(--green);border-radius:50%;box-shadow:0 0 0 4px #6ee7b71b}.chat-head p{font-size:12px;margin:0}.chat-messages{height:290px;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:88%;padding:11px 13px;border-radius:14px;font-size:14px;white-space:pre-wrap}.bot{align-self:flex-start;background:#1b2c43;border:1px solid #30435d}.user{align-self:flex-end;background:#3b3424;border:1px solid #6e5c37}.chat-quick{padding:0 18px 14px;display:flex;gap:8px;flex-wrap:wrap}.quick{border:1px solid #475875;color:var(--text);background:#0b1626;padding:8px 11px;border-radius:999px;cursor:pointer;font-size:12px}.chat-form{display:flex;gap:9px;padding:14px;border-top:1px solid var(--line)}.chat-form input{flex:1;min-width:0}.footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:12px}.footer-row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.small-link{color:var(--gold);text-decoration:none}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding-top:26px}.cards{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}.faq-grid{grid-template-columns:1fr}.tag{display:none}}
+@media(max-width:500px){.cards{grid-template-columns:1fr}.form-panel{grid-template-columns:1fr;padding:17px}.full{grid-column:auto}.top{align-items:flex-start}.chat-form{flex-wrap:wrap}.chat-form input{flex-basis:100%}.chat-form button{flex:1}}
 </style>
 </head>
 <body>
 <header class="wrap top">
-  <div class="brand"><div class="logo">⌁</div><div>Central de Atendimento<br><small style="font-weight:500;color:var(--muted)">Câmeras de segurança</small></div></div>
+  <div class="brand"><div class="logo">KS</div><div>KS Segurança Eletrônica<small>Central de Atendimento</small></div></div>
   <div class="tag">SUPORTE • ORÇAMENTOS • VISITAS</div>
 </header>
 <main class="wrap">
   <div class="hero">
     <div>
-      <div class="eyebrow">Atendimento simples e rápido</div>
-      <h1>Como podemos ajudar você hoje?</h1>
-      <p>Escolha o tipo de atendimento, informe o que precisa e envie sua solicitação pelo WhatsApp. Nossa equipe dará continuidade ao atendimento.</p>
-      <a class="btn primary" href="#solicitacao">Iniciar atendimento <span>↓</span></a>
+      <div class="eyebrow">Tecnologia e segurança</div>
+      <h1>Conte com a <em>KS</em> para proteger o que importa.</h1>
+      <p>Precisa de suporte, quer tirar uma dúvida, solicitar orçamento ou marcar uma visita? Escolha uma opção e conte para a gente o que você precisa.</p>
+      <div class="actions"><a class="btn primary" href="#atendimentos">Solicitar atendimento ↓</a><a class="btn secondary" href="#assistente">Conversar com assistente</a></div>
     </div>
     <div class="hero-card">
-      <div class="camera">📹</div>
-      <h3>Segurança sem complicação</h3>
-      <p>Conte com um canal organizado para dúvidas, suporte técnico, orçamento de câmeras e agendamento de visita.</p>
-      <ul class="ticks"><li>Solicitação organizada</li><li>Contato direto pelo WhatsApp</li><li>Visitas sujeitas a confirmação</li></ul>
+      <div class="camera">◉</div>
+      <h3>Seu atendimento em um só lugar</h3>
+      <p>Organize sua solicitação antes de falar com nossa equipe.</p>
+      <ul class="ticks"><li>Suporte para dúvidas comuns</li><li>Pedido de orçamento organizado</li><li>Solicitação de visita técnica</li><li>Contato direto com a KS pelo WhatsApp</li></ul>
     </div>
   </div>
 
-  <section>
-    <h2 class="section-title">Escolha o atendimento</h2>
-    <p>Selecione uma opção. O formulário será ajustado para sua necessidade.</p>
+  <section id="atendimentos">
+    <h2 class="section-title">Como podemos ajudar?</h2><p class="section-sub">Escolha o tipo de atendimento. O formulário será ajustado para você.</p>
     <div class="cards">
-      <button class="service active" data-kind="Suporte técnico" type="button"><div class="ico">🛠️</div><h3>Suporte técnico</h3><p>Câmera offline, imagem, gravação ou acesso pelo celular.</p></button>
-      <button class="service" data-kind="Dúvida" type="button"><div class="ico">💬</div><h3>Dúvidas</h3><p>Informações sobre equipamentos e funcionamento.</p></button>
-      <button class="service" data-kind="Orçamento" type="button"><div class="ico">🧾</div><h3>Orçamento</h3><p>Instalação, manutenção ou compra de equipamentos.</p></button>
-      <button class="service" data-kind="Agendamento de visita" type="button"><div class="ico">📅</div><h3>Agendar visita</h3><p>Solicite um dia e horário para avaliação técnica.</p></button>
+      <button class="service active" data-kind="Suporte técnico" type="button"><div class="ico">🛠️</div><h3>Suporte técnico</h3><p>Câmera sem imagem, offline, gravação ou acesso pelo celular.</p></button>
+      <button class="service" data-kind="Dúvida" type="button"><div class="ico">💬</div><h3>Tirar dúvidas</h3><p>Entenda melhor equipamentos, instalação e funcionamento.</p></button>
+      <button class="service" data-kind="Orçamento" type="button"><div class="ico">🧾</div><h3>Solicitar orçamento</h3><p>Instalação, manutenção ou equipamentos de segurança.</p></button>
+      <button class="service" data-kind="Agendamento de visita" type="button"><div class="ico">📅</div><h3>Agendar visita</h3><p>Informe o dia e período que prefere para atendimento.</p></button>
+    </div>
+  </section>
+
+  <section id="assistente">
+    <h2 class="section-title">Assistente virtual da KS</h2>
+    <p class="section-sub">Faça uma pergunta ou escolha um assunto. Este assistente gratuito responde com orientações pré-configuradas; não é uma IA generativa e não acessa suas câmeras nem seus equipamentos.</p>
+    <div class="chat-box">
+      <div class="chat-head"><div class="chat-dot"></div><div><b>Assistente KS</b><p>Disponível para dúvidas comuns</p></div></div>
+      <div id="chatMessages" class="chat-messages" aria-live="polite"><div class="bubble bot">Olá! 👋 Sou o assistente virtual da KS. Posso orientar sobre problemas comuns ou ajudar a preparar um pedido. O que você precisa?</div></div>
+      <div class="chat-quick">
+        <button class="quick" data-question="Minha câmera está sem imagem">Câmera sem imagem</button>
+        <button class="quick" data-question="Não consigo acessar pelo celular">Acesso pelo celular</button>
+        <button class="quick" data-question="Quero fazer um orçamento">Orçamento</button>
+        <button class="quick" data-question="Quero agendar uma visita">Agendar visita</button>
+        <button class="quick" data-question="Quero falar com uma pessoa">Falar com atendente</button>
+      </div>
+      <form class="chat-form" id="chatForm"><input id="chatInput" maxlength="400" placeholder="Digite sua dúvida..." aria-label="Digite sua dúvida" required><button class="btn primary" type="submit">Enviar</button></form>
     </div>
   </section>
 
   <section id="solicitacao">
-    <h2 class="section-title">Sua solicitação</h2>
-    <p>Preencha os dados abaixo. Ao enviar, o WhatsApp será aberto com a mensagem pronta para você revisar e mandar.</p>
-    <div class="notice">Este site não confirma preços nem visitas automaticamente. A equipe precisa confirmar disponibilidade e valores pelo WhatsApp.</div>
+    <h2 class="section-title">Sua solicitação</h2><p>Preencha os dados e continue pelo WhatsApp. A mensagem ficará pronta para você revisar e enviar.</p>
+    <div class="notice">O envio abre o WhatsApp, mas não envia a mensagem sozinho. Preços, disponibilidade e visitas precisam ser confirmados pela equipe da KS.</div>
     <form id="requestForm" class="form-panel">
-      <div><label for="name">Nome</label><input id="name" name="name" required maxlength="100" placeholder="Seu nome"></div>
+      <div><label for="name">Seu nome *</label><input id="name" name="name" required maxlength="100" placeholder="Como podemos chamar você?"></div>
       <div><label for="phone">Telefone para contato</label><input id="phone" name="phone" inputmode="tel" maxlength="30" placeholder="(DDD) 99999-9999"></div>
-      <div><label for="kind">Tipo de atendimento</label><select id="kind" name="kind"><option>Suporte técnico</option><option>Dúvida</option><option>Orçamento</option><option>Agendamento de visita</option></select></div>
-      <div><label for="city">Cidade / bairro</label><input id="city" name="city" maxlength="120" placeholder="Ex.: Centro, Maceió"></div>
+      <div><label for="kind">Tipo de atendimento *</label><select id="kind" name="kind"><option>Suporte técnico</option><option>Dúvida</option><option>Orçamento</option><option>Agendamento de visita</option></select></div>
+      <div><label for="city">Cidade / bairro *</label><input id="city" name="city" required maxlength="120" placeholder="Ex.: Marechal Deodoro, Centro"></div>
       <div id="equipWrap"><label for="equipment">Equipamento ou serviço</label><select id="equipment" name="equipment"><option>Câmera de segurança</option><option>DVR / NVR</option><option>Acesso pelo celular</option><option>Instalação de sistema</option><option>Manutenção</option><option>Outro</option></select></div>
       <div id="qtyWrap"><label for="quantity">Quantidade de câmeras (se souber)</label><input id="quantity" name="quantity" type="number" min="0" max="500" placeholder="Ex.: 4"></div>
-      <div id="dateWrap"><label for="date">Dia preferido para visita</label><input id="date" name="date" type="date"></div>
+      <div id="dateWrap"><label for="date">Data preferida para visita</label><input id="date" name="date" type="date"></div>
       <div id="timeWrap"><label for="time">Período preferido</label><select id="time" name="time"><option>Sem preferência</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
-      <div class="full"><label for="details">Descreva o que você precisa</label><textarea id="details" name="details" required maxlength="1500" placeholder="Conte o problema, sua dúvida ou o que deseja instalar..."></textarea></div>
-      <div class="full actions"><button class="btn primary" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
-      <div class="full hint">Ao continuar, seus dados serão colocados numa mensagem do WhatsApp. Você poderá revisar e enviar manualmente.</div>
+      <div class="full"><label for="details">Explique o que você precisa *</label><textarea id="details" name="details" required maxlength="1500" placeholder="Descreva o problema ou o serviço desejado..."></textarea></div>
+      <div class="full actions"><button class="btn green" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
+      <div class="full hint">Se anexar fotos, envie-as diretamente na conversa do WhatsApp depois que ela abrir.</div>
     </form>
   </section>
+
+  <section id="duvidas">
+    <h2 class="section-title">Perguntas frequentes</h2><p class="section-sub">Orientações iniciais para os problemas mais comuns.</p>
+    <div class="faq-grid">
+      <details class="faq"><summary>A câmera está sem imagem. O que faço?</summary><p>Confira se o equipamento está ligado e se os cabos estão firmes. Se várias câmeras pararam ao mesmo tempo, pode ser alimentação, gravador ou rede. Não abra fontes nem equipamentos energizados. Se continuar, envie um pedido de suporte.</p></details>
+      <details class="faq"><summary>Não consigo ver as câmeras no celular.</summary><p>Verifique se o celular tem internet e se você está usando o aplicativo correto. Não compartilhe sua senha aqui. Se o problema continuar, informe o modelo do gravador ou aplicativo ao suporte.</p></details>
+      <details class="faq"><summary>Como peço um orçamento?</summary><p>Escolha “Solicitar orçamento” no formulário, informe o local, o serviço e, se souber, a quantidade de câmeras. A equipe precisa avaliar os detalhes para informar o valor.</p></details>
+      <details class="faq"><summary>O agendamento fica confirmado na hora?</summary><p>Não. O formulário registra sua preferência na mensagem do WhatsApp. A data e o horário só ficam confirmados depois da resposta da equipe.</p></details>
+    </div>
+  </section>
+
   <section>
     <h2 class="section-title">Como funciona</h2>
     <div class="steps">
-      <div class="step"><b>1. Você explica</b><span>Preencha o formulário com o pedido e os detalhes necessários.</span></div>
-      <div class="step"><b>2. Envie pelo WhatsApp</b><span>O WhatsApp abre com a mensagem preenchida para revisão.</span></div>
-      <div class="step"><b>3. Confirmamos com você</b><span>A equipe responde, informa o orçamento ou confirma a visita.</span></div>
+      <div class="step"><b>1. Escolha o atendimento</b><span>Selecione suporte, dúvida, orçamento ou visita.</span></div>
+      <div class="step"><b>2. Envie sua solicitação</b><span>Revise os dados na mensagem que será preparada no WhatsApp.</span></div>
+      <div class="step"><b>3. A KS dá continuidade</b><span>A equipe confirma valores, orientações e disponibilidade.</span></div>
     </div>
   </section>
 </main>
-<footer class="footer"><div class="wrap">Central de Atendimento • Câmeras de segurança<br>Este canal recebe solicitações; não substitui confirmação de orçamento, disponibilidade ou visita.</div></footer>
+<footer class="footer"><div class="wrap footer-row"><div><b>KS Segurança Eletrônica</b><br>Central de Atendimento</div><div>Este site não acessa câmeras nem confirma automaticamente orçamentos ou visitas.<br><a class="small-link" href="#atendimentos">Voltar ao início ↑</a></div></div></footer>
 <script>
-/* CONFIGURAÇÃO: coloque o número do WhatsApp no formato internacional, apenas números.
-   Exemplo do Brasil: 55 + DDD + número. Não use +, espaços, parênteses ou traços. */
 const WHATSAPP_NUMBER = "558293673659";
 const serviceButtons = document.querySelectorAll(".service");
 const kind = document.getElementById("kind");
 serviceButtons.forEach(btn => btn.addEventListener("click", () => {
   serviceButtons.forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  kind.value = btn.dataset.kind;
-  document.getElementById("solicitacao").scrollIntoView({behavior:"smooth",block:"start"});
-  updateFields();
+  btn.classList.add("active"); kind.value = btn.dataset.kind;
+  document.getElementById("solicitacao").scrollIntoView({behavior:"smooth",block:"start"}); updateFields();
 }));
 function updateFields(){
   const k=kind.value;
@@ -94,31 +122,29 @@ function updateFields(){
   document.getElementById("dateWrap").style.display=k==="Agendamento de visita"?"block":"none";
   document.getElementById("timeWrap").style.display=k==="Agendamento de visita"?"block":"none";
 }
-kind.addEventListener("change",updateFields);
-updateFields();
+kind.addEventListener("change",updateFields); updateFields();
 document.getElementById("requestForm").addEventListener("submit",e=>{
   e.preventDefault();
-  if(WHATSAPP_NUMBER.includes("DDD") || WHATSAPP_NUMBER.includes("NÚMERO")){
-    alert("Antes de publicar, configure o número do WhatsApp no arquivo index.html. Procure por WHATSAPP_NUMBER.");
-    return;
-  }
-  const val=id=>document.getElementById(id).value.trim();
-  const lines=[
-    "Olá! Vim pelo site Central de Atendimento.",
-    "",
-    "Tipo de atendimento: "+val("kind"),
-    "Nome: "+val("name"),
-    "Telefone: "+(val("phone")||"Não informado"),
-    "Cidade/bairro: "+(val("city")||"Não informado"),
-    "Equipamento/serviço: "+val("equipment"),
-    ...(val("quantity")?["Quantidade de câmeras: "+val("quantity")]:[]),
-    ...(val("date")?["Dia preferido para visita: "+val("date")]:[]),
-    ...(val("kind")==="Agendamento de visita"?["Período preferido: "+val("time")]:[]),
-    "",
-    "Detalhes: "+val("details")
-  ];
-  window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(lines.join("\n")),"_blank","noopener");
+  const v=id=>document.getElementById(id).value.trim();
+  const msg = `*Solicitação pelo site — KS Segurança Eletrônica*\n\n*Nome:* ${v("name")}\n*Telefone:* ${v("phone")||"Não informado"}\n*Atendimento:* ${v("kind")}\n*Cidade/bairro:* ${v("city")}\n*Equipamento/serviço:* ${v("equipment")}\n*Quantidade de câmeras:* ${v("quantity")||"Não informado"}\n*Data preferida:* ${v("date")||"Não informada"}\n*Período:* ${v("time")}\n*Detalhes:* ${v("details")}`;
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 });
+const chatMessages=document.getElementById("chatMessages");
+function addBubble(text,who){const b=document.createElement("div");b.className="bubble "+who;b.textContent=text;chatMessages.appendChild(b);chatMessages.scrollTop=chatMessages.scrollHeight;}
+function answer(q){
+ const s=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ if(s.includes("imagem")||s.includes("sem imagem")||s.includes("preta")) return "Vamos começar pelo básico:\n1. Veja se o equipamento está ligado.\n2. Confira se os cabos estão firmes, sem puxar ou abrir o equipamento.\n3. Veja se o problema acontece em uma câmera ou em todas.\n\nSe continuar, selecione Suporte técnico no formulário para falar com a KS.";
+ if(s.includes("celular")||s.includes("aplicativo")||s.includes("acesso remoto")||s.includes("ver camera")) return "Confira se o celular tem internet e se o aplicativo correto está instalado. Não envie sua senha por aqui. Se aparecer alguma mensagem de erro, anote-a e mande junto com seu pedido de suporte.";
+ if(s.includes("grav")||s.includes("replay")||s.includes("reprodu")) return "Para verificar gravações, confira a data e o horário selecionados no aplicativo ou gravador. Se não aparecer nenhum registro, evite formatar o disco. Envie um pedido de suporte informando o modelo e o que aparece na tela.";
+ if(s.includes("orcamento")||s.includes("preco")||s.includes("valor")||s.includes("instal")) return "Claro! Para preparar o orçamento, informe a cidade/bairro, o tipo de serviço e a quantidade aproximada de câmeras. Clique em “Solicitar orçamento” no formulário. O valor final depende da avaliação da equipe.";
+ if(s.includes("agend")||s.includes("visita")||s.includes("horario")) return "Você pode pedir uma visita pelo formulário, escolhendo a data e o período preferidos. A solicitação não confirma o horário automaticamente; a equipe da KS precisa confirmar pelo WhatsApp.";
+ if(s.includes("pessoa")||s.includes("atendente")||s.includes("humano")||s.includes("whatsapp")) return "Para falar com a equipe, preencha o formulário e clique em “Continuar pelo WhatsApp”. O WhatsApp abrirá com sua mensagem pronta para você revisar e enviar.";
+ if(s.includes("senha")||s.includes("hack")||s.includes("invad")) return "Por segurança, não compartilhe senhas nem códigos de acesso neste chat. Se suspeitar que alguém acessou seu sistema, altere a senha pelo aplicativo oficial e entre em contato com a equipe técnica.";
+ return "Posso orientar sobre câmera sem imagem, acesso pelo celular, gravação, orçamento ou agendamento. Tente uma dessas opções abaixo. Para uma análise específica, envie sua solicitação à equipe da KS pelo WhatsApp.";
+}
+function sendChat(q){const text=q.trim();if(!text)return;addBubble(text,"user");setTimeout(()=>addBubble(answer(text),"bot"),120);}
+document.getElementById("chatForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("chatInput");sendChat(i.value);i.value="";});
+document.querySelectorAll(".quick").forEach(b=>b.addEventListener("click",()=>sendChat(b.dataset.question)));
 </script>
 </body>
 </html>
