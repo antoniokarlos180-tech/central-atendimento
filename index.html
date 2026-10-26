@@ -85,8 +85,8 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
       <div class="full"><label for="details">Explique o que você precisa *</label><textarea id="details" name="details" required maxlength="1500" placeholder="Descreva o problema ou o serviço desejado..."></textarea></div>
       <div class="full"><label for="photo">Foto do equipamento (opcional)</label><input id="photo" type="file" accept="image/*" multiple><div class="hint">As fotos não são enviadas automaticamente pelo site. Depois que o WhatsApp abrir, anexe-as na conversa.</div></div>
       <div class="full"><label style="display:flex;align-items:center;gap:9px;font-weight:500"><input id="rememberClient" type="checkbox" checked style="width:auto"> Lembrar meus dados neste aparelho para facilitar o próximo atendimento</label></div>
-      <div class="full actions"><button id="submitRequest" class="btn green" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
-      <div class="full hint">Se anexar fotos, envie-as diretamente na conversa do WhatsApp depois que ela abrir.</div>
+      <div class="full actions"><button id="submitRequest" class="btn green" type="submit">✦ Gerar imagem e compartilhar pelo WhatsApp</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
+      <div class="full hint">O site prepara uma imagem com os dados. Em aparelhos compatíveis, você poderá compartilhar imagem e texto pelo menu de compartilhamento; caso contrário, a imagem será baixada e o WhatsApp abrirá com o texto pronto para anexá-la manualmente.</div>
     </form>
   </section>
 
@@ -147,9 +147,9 @@ function updateFields(){
 }
 kind.addEventListener("change",updateFields); updateFields();
 requestForm.addEventListener("reset", () => {
-  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 0);
+  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "✦ Gerar imagem e compartilhar pelo WhatsApp"; }, 0);
 });
-requestForm.addEventListener("submit",e=>{
+requestForm.addEventListener("submit",async e=>{
   e.preventDefault();
   if (submitRequest.disabled) return;
   const v=id=>document.getElementById(id).value.trim();
@@ -174,7 +174,7 @@ requestForm.addEventListener("submit",e=>{
     }
   } catch (_) {}
   submitRequest.disabled = true;
-  submitRequest.textContent = "Abrindo WhatsApp…";
+  submitRequest.textContent = "Preparando imagem…";
 
   if (document.getElementById("rememberClient").checked) {
     try {
@@ -221,10 +221,59 @@ requestForm.addEventListener("submit",e=>{
     "_Mensagem preparada pelo site da KS. A data, o horário e os valores dependem de confirmação da equipe._"
   );
   const msg = linhas.join("\n");
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
-  // Reativa após um intervalo curto; a trava anti-duplicação continua ativa por 10 min.
-  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 5000);
+  try {
+    const imageBlob = await makeRequestImage(pedido, v("date") ? v("date").split("-").reverse().join("/") : "Não informada");
+    const imageFile = new File([imageBlob], "KS-Cameras-Solicitacao.png", { type: "image/png" });
+    // Em navegadores compatíveis, abre o menu nativo para compartilhar imagem + texto.
+    if (navigator.canShare && navigator.canShare({ files: [imageFile] }) && navigator.share) {
+      await navigator.share({ title: "Solicitação KS Câmeras", text: msg, files: [imageFile] });
+    } else {
+      // Fallback gratuito: baixa a imagem e abre o WhatsApp com o texto preparado.
+      const downloadUrl = URL.createObjectURL(imageBlob);
+      const a = document.createElement("a"); a.href = downloadUrl; a.download = imageFile.name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 30000);
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+      alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png à conversa antes de enviar.");
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") {
+      // O usuário fechou o menu de compartilhamento; o pedido já foi preparado e registrado.
+    } else {
+      console.error("Falha ao gerar/compartilhar imagem:", err);
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+      alert("Não foi possível compartilhar a imagem automaticamente. O WhatsApp abrirá com o texto; você ainda pode enviar o pedido normalmente.");
+    }
+  } finally {
+    submitRequest.disabled = false;
+    submitRequest.textContent = "✦ Gerar imagem e compartilhar pelo WhatsApp";
+  }
 });
+
+async function makeRequestImage(pedido, dataPreferida) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1000; canvas.height = 1320;
+  const ctx = canvas.getContext("2d");
+  const bg = ctx.createLinearGradient(0, 0, 1000, 1320); bg.addColorStop(0, "#07111b"); bg.addColorStop(1, "#142332");
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "#d7b56d"; ctx.lineWidth = 3; ctx.strokeRect(24, 24, 952, 1272);
+  ctx.fillStyle = "#d7b56d"; ctx.font = "bold 54px Arial"; ctx.fillText("KS CÂMERAS", 58, 92);
+  ctx.fillStyle = "#eef3f8"; ctx.font = "24px Arial"; ctx.fillText("SEGURANÇA ELETRÔNICA", 60, 130);
+  ctx.fillStyle = "#d7b56d"; ctx.fillRect(58, 158, 884, 4);
+  ctx.fillStyle = "#ffffff"; ctx.font = "bold 32px Arial"; ctx.fillText("NOVA SOLICITAÇÃO DE ATENDIMENTO", 58, 212);
+  let y = 278;
+  function heading(t) { ctx.fillStyle = "#d7b56d"; ctx.font = "bold 25px Arial"; ctx.fillText(t, 60, y); y += 44; }
+  function line(t, color="#eef3f8", font="24px Arial") { ctx.fillStyle=color; ctx.font=font; const words=String(t).split(/\s+/); let row=""; for (const w of words) { const test=row ? row+" "+w : w; if(ctx.measureText(test).width>850 && row){ctx.fillText(row,60,y);y+=32;row=w;} else row=test;} if(row){ctx.fillText(row,60,y);y+=36;} }
+  heading("DADOS DO CLIENTE"); line("Nome: " + pedido.nome); line("Telefone: " + (pedido.telefone || "Não informado"), "#32d583"); line("Cidade/bairro: " + pedido.cidade);
+  y += 8; ctx.fillStyle="#34465b";ctx.fillRect(60,y,880,2);y+=38;
+  heading("DETALHES DA SOLICITAÇÃO"); line("Atendimento: " + pedido.tipo, "#36b5ff"); line("Equipamento/serviço: " + pedido.equipamento); if(pedido.dataVisita) line("Data preferida: " + dataPreferida); if(pedido.tipo === "Agendamento de visita") line("Período: " + pedido.periodo);
+  y += 8; ctx.fillStyle="#34465b";ctx.fillRect(60,y,880,2);y+=38;
+  heading("DESCRIÇÃO DO PROBLEMA");
+  ctx.fillStyle="#1c2a36"; ctx.strokeStyle="#8a6d36"; ctx.lineWidth=2; ctx.beginPath(); ctx.roundRect(54,y-16,892,Math.max(100,Math.min(190, Math.ceil(pedido.descricao.length/60)*34+32)),16);ctx.fill();ctx.stroke();
+  ctx.fillStyle="#ffffff";ctx.font="25px Arial"; const descWords=pedido.descricao.split(/\s+/); let row=""; y+=25; for(const w of descWords){const test=row?row+" "+w:w;if(ctx.measureText(test).width>830&&row){ctx.fillText(row,78,y);y+=34;row=w;}else row=test;}if(row)ctx.fillText(row,78,y);
+  y += 78; ctx.fillStyle="#d7b56d"; ctx.font="bold 22px Arial"; ctx.fillText("A KS CÂMERAS AGRADECE SEU CONTATO",60,Math.min(y,1225));
+  ctx.fillStyle="#b8c5d4";ctx.font="18px Arial";ctx.fillText("Data, horário e valores dependem de confirmação da equipe.",60,Math.min(y+34,1265));
+  return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("Não foi possível gerar a imagem")),"image/png"));
+}
 const chatMessages=document.getElementById("chatMessages");
 function addBubble(text,who){const b=document.createElement("div");b.className="bubble "+who;b.textContent=text;chatMessages.appendChild(b);chatMessages.scrollTop=chatMessages.scrollHeight;}
 function answer(q){
