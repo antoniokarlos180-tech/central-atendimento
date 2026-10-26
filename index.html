@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a1220">
-<title>KS Segurança Eletrônica | Central de Atendimento</title>
-<meta name="description" content="Central de atendimento KS Segurança Eletrônica: suporte, dúvidas, orçamento e agendamento de visitas.">
+<title>KS Câmeras | Central de Atendimento</title>
+<meta name="description" content="Central de atendimento KS Câmeras: suporte, dúvidas, orçamento e agendamento de visitas.">
 <style>
 :root{--bg:#09111e;--panel:#101d30;--panel2:#162740;--text:#f4f7fc;--muted:#afbdd0;--line:#2b3d56;--gold:#d7b56d;--blue:#77aaff;--green:#6ee7b7}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 85% 0%,#1b3150 0,transparent 34%),var(--bg);color:var(--text);line-height:1.55}
@@ -23,10 +23,11 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
 </head>
 <body>
 <header class="wrap top">
-  <div class="brand"><div class="logo">KS</div><div>KS Segurança Eletrônica<small>Central de Atendimento</small></div></div>
+  <div class="brand"><div class="logo">KS</div><div>KS Câmeras<small>Central de Atendimento</small></div></div>
   <div class="tag">SUPORTE • ORÇAMENTOS • VISITAS</div>
 </header>
 <main class="wrap">
+  <div id="welcomeBox" class="notice" style="display:none" aria-live="polite"></div>
   <div class="hero">
     <div>
       <div class="eyebrow">Tecnologia e segurança</div>
@@ -70,11 +71,11 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
   </section>
 
   <section id="solicitacao">
-    <h2 class="section-title">Sua solicitação</h2><p>Preencha os dados e continue pelo WhatsApp. A mensagem ficará pronta para você revisar e enviar.</p>
+    <h2 class="section-title">Sua solicitação</h2><p>Preencha apenas o necessário e continue pelo WhatsApp. Se já usou este aparelho antes, seus dados básicos podem ser sugeridos para facilitar.</p>
     <div class="notice">O envio abre o WhatsApp, mas não envia a mensagem sozinho. Preços, disponibilidade e visitas precisam ser confirmados pela equipe da KS.</div>
     <form id="requestForm" class="form-panel">
       <div><label for="name">Seu nome *</label><input id="name" name="name" required maxlength="100" placeholder="Como podemos chamar você?"></div>
-      <div><label for="phone">Telefone para contato</label><input id="phone" name="phone" inputmode="tel" maxlength="30" placeholder="(DDD) 99999-9999"></div>
+      <div><label for="phone">Telefone para contato</label><input id="phone" name="phone" inputmode="tel" maxlength="30" placeholder="(DDD) 99999-9999"><div class="hint">Não conseguimos capturar automaticamente seu número do WhatsApp. Informe-o se quiser retorno por telefone.</div></div>
       <div><label for="kind">Tipo de atendimento *</label><select id="kind" name="kind"><option>Suporte técnico</option><option>Dúvida</option><option>Orçamento</option><option>Agendamento de visita</option></select></div>
       <div><label for="city">Cidade / bairro *</label><input id="city" name="city" required maxlength="120" placeholder="Ex.: Marechal Deodoro, Centro"></div>
       <div id="equipWrap"><label for="equipment">Equipamento ou serviço</label><select id="equipment" name="equipment"><option>Câmera de segurança</option><option>DVR / NVR</option><option>Acesso pelo celular</option><option>Instalação de sistema</option><option>Manutenção</option><option>Outro</option></select></div>
@@ -82,7 +83,9 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
       <div id="dateWrap"><label for="date">Data preferida para visita</label><input id="date" name="date" type="date"></div>
       <div id="timeWrap"><label for="time">Período preferido</label><select id="time" name="time"><option>Sem preferência</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
       <div class="full"><label for="details">Explique o que você precisa *</label><textarea id="details" name="details" required maxlength="1500" placeholder="Descreva o problema ou o serviço desejado..."></textarea></div>
-      <div class="full actions"><button class="btn green" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
+      <div class="full"><label for="photo">Foto do equipamento (opcional)</label><input id="photo" type="file" accept="image/*" multiple><div class="hint">As fotos não são enviadas automaticamente pelo site. Depois que o WhatsApp abrir, anexe-as na conversa.</div></div>
+      <div class="full"><label style="display:flex;align-items:center;gap:9px;font-weight:500"><input id="rememberClient" type="checkbox" checked style="width:auto"> Lembrar meus dados neste aparelho para facilitar o próximo atendimento</label></div>
+      <div class="full actions"><button id="submitRequest" class="btn green" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
       <div class="full hint">Se anexar fotos, envie-as diretamente na conversa do WhatsApp depois que ela abrir.</div>
     </form>
   </section>
@@ -106,11 +109,30 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
     </div>
   </section>
 </main>
-<footer class="footer"><div class="wrap footer-row"><div><b>KS Segurança Eletrônica</b><br>Central de Atendimento</div><div>Este site não acessa câmeras nem confirma automaticamente orçamentos ou visitas.<br><a class="small-link" href="#atendimentos">Voltar ao início ↑</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-row"><div><b>KS Câmeras</b><br>Central de Atendimento</div><div>Este site não acessa câmeras nem confirma automaticamente orçamentos ou visitas.<br><a class="small-link" href="#atendimentos">Voltar ao início ↑</a></div></div></footer>
 <script>
 const WHATSAPP_NUMBER = "558293673659";
 const SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxETqQsx1u_vZYF6RzSISqCg2iYABdpT8xw9Hz49HkoqS8bEHw2vZqWzJ5o1s5ZUT43/exec";
 const serviceButtons = document.querySelectorAll(".service");
+const CLIENT_STORAGE_KEY = "ksCamerasClientV1";
+const REQUEST_STORAGE_KEY = "ksCamerasRecentRequestV1";
+const welcomeBox = document.getElementById("welcomeBox");
+const requestForm = document.getElementById("requestForm");
+const submitRequest = document.getElementById("submitRequest");
+
+// Conveniência local: só lembra os dados neste navegador/aparelho.
+// Isso NÃO comprova identidade e não mostra dados privados a partir do telefone.
+try {
+  const savedClient = JSON.parse(localStorage.getItem(CLIENT_STORAGE_KEY) || "null");
+  if (savedClient && savedClient.nome) {
+    welcomeBox.textContent = `Olá, ${savedClient.nome}! Bem-vindo(a) de volta à KS Câmeras. Seus dados podem ser preenchidos novamente neste aparelho.`;
+    welcomeBox.style.display = "block";
+    document.getElementById("name").value = savedClient.nome || "";
+    document.getElementById("phone").value = savedClient.telefone || "";
+    document.getElementById("city").value = savedClient.cidade || "";
+  }
+} catch (_) { /* armazenamento local indisponível: formulário continua funcionando */ }
+
 const kind = document.getElementById("kind");
 serviceButtons.forEach(btn => btn.addEventListener("click", () => {
   serviceButtons.forEach(b => b.classList.remove("active"));
@@ -124,8 +146,12 @@ function updateFields(){
   document.getElementById("timeWrap").style.display=k==="Agendamento de visita"?"block":"none";
 }
 kind.addEventListener("change",updateFields); updateFields();
-document.getElementById("requestForm").addEventListener("submit",e=>{
+requestForm.addEventListener("reset", () => {
+  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 0);
+});
+requestForm.addEventListener("submit",e=>{
   e.preventDefault();
+  if (submitRequest.disabled) return;
   const v=id=>document.getElementById(id).value.trim();
   const pedido = {
     nome: v("name"),
@@ -137,6 +163,30 @@ document.getElementById("requestForm").addEventListener("submit",e=>{
     dataVisita: v("date"),
     periodo: v("time")
   };
+  // Evita clique duplo e repetição idêntica no mesmo navegador por 10 minutos.
+  // A proteção no navegador não substitui a validação no Apps Script.
+  const fingerprint = JSON.stringify([pedido.telefone.replace(/\D/g, ""), pedido.tipo, pedido.cidade.toLowerCase(), pedido.equipamento, pedido.descricao.toLowerCase(), pedido.dataVisita, pedido.periodo]);
+  try {
+    const recent = JSON.parse(localStorage.getItem(REQUEST_STORAGE_KEY) || "null");
+    if (recent && recent.fingerprint === fingerprint && Date.now() - recent.time < 10 * 60 * 1000) {
+      alert("Esse pedido parece igual ao que você acabou de preparar. Aguarde 10 minutos antes de repetir. Se for outro pedido, altere a descrição para diferenciá-lo.");
+      return;
+    }
+  } catch (_) {}
+  submitRequest.disabled = true;
+  submitRequest.textContent = "Abrindo WhatsApp…";
+
+  if (document.getElementById("rememberClient").checked) {
+    try {
+      localStorage.setItem(CLIENT_STORAGE_KEY, JSON.stringify({ nome: pedido.nome, telefone: pedido.telefone, cidade: pedido.cidade }));
+      welcomeBox.textContent = `Olá, ${pedido.nome}! Bem-vindo(a) à KS Câmeras.`;
+      welcomeBox.style.display = "block";
+    } catch (_) {}
+  } else {
+    try { localStorage.removeItem(CLIENT_STORAGE_KEY); } catch (_) {}
+  }
+  try { localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify({ fingerprint, time: Date.now() })); } catch (_) {}
+
   // Envia o pedido à planilha em segundo plano. O navegador não consegue ler
   // a resposta por segurança (no-cors), por isso não mostramos confirmação de gravação.
   fetch(SHEETS_WEB_APP_URL, {
@@ -148,7 +198,7 @@ document.getElementById("requestForm").addEventListener("submit",e=>{
 
   const dataPreferida = v("date") ? v("date").split("-").reverse().join("/") : "Não informada";
   const linhas = [
-    "*KS SEGURANÇA ELETRÔNICA*",
+    "*KS CÂMERAS*",
     "*Nova solicitação pelo site*",
     "",
     "📋 *DADOS DO CLIENTE*",
@@ -172,6 +222,8 @@ document.getElementById("requestForm").addEventListener("submit",e=>{
   );
   const msg = linhas.join("\n");
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
+  // Reativa após um intervalo curto; a trava anti-duplicação continua ativa por 10 min.
+  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 5000);
 });
 const chatMessages=document.getElementById("chatMessages");
 function addBubble(text,who){const b=document.createElement("div");b.className="bubble "+who;b.textContent=text;chatMessages.appendChild(b);chatMessages.scrollTop=chatMessages.scrollHeight;}
