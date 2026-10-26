@@ -146,7 +146,31 @@ document.getElementById("requestForm").addEventListener("submit",e=>{
     body: JSON.stringify(pedido)
   }).catch(err => console.error("Não foi possível enviar à central KS:", err));
 
-  const msg = `*Solicitação pelo site — KS Segurança Eletrônica*\n\n*Nome:* ${v("name")}\n*Telefone:* ${v("phone")||"Não informado"}\n*Atendimento:* ${v("kind")}\n*Cidade/bairro:* ${v("city")}\n*Equipamento/serviço:* ${v("equipment")}\n*Quantidade de câmeras:* ${v("quantity")||"Não informado"}\n*Data preferida:* ${v("date")||"Não informada"}\n*Período:* ${v("time")}\n*Detalhes:* ${v("details")}`;
+  const dataPreferida = v("date") ? v("date").split("-").reverse().join("/") : "Não informada";
+  const linhas = [
+    "*KS SEGURANÇA ELETRÔNICA*",
+    "*Nova solicitação pelo site*",
+    "",
+    "📋 *DADOS DO CLIENTE*",
+    `• *Nome:* ${v("name")}`,
+    `• *Telefone:* ${v("phone") || "Não informado"}`,
+    "",
+    "🛠️ *DETALHES DA SOLICITAÇÃO*",
+    `• *Atendimento:* ${v("kind")}`,
+    `• *Cidade/bairro:* ${v("city")}`,
+    `• *Equipamento/serviço:* ${v("equipment")}`
+  ];
+  if (v("quantity")) linhas.push(`• *Quantidade de câmeras:* ${v("quantity")}`);
+  if (v("date")) linhas.push(`• *Data preferida para visita:* ${dataPreferida}`);
+  if (v("kind") === "Agendamento de visita") linhas.push(`• *Período preferido:* ${v("time")}`);
+  linhas.push(
+    "",
+    "📝 *OBSERVAÇÕES*",
+    v("details"),
+    "",
+    "_Mensagem preparada pelo site da KS. A data, o horário e os valores dependem de confirmação da equipe._"
+  );
+  const msg = linhas.join("\n");
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
 });
 const chatMessages=document.getElementById("chatMessages");
