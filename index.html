@@ -41,7 +41,8 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
       <div><h3>Solicitação preparada com sucesso!</h3><p id="confirmationGreeting">Obrigado por entrar em contato com a KS Câmeras.</p></div>
     </div>
     <p>Seus dados foram organizados para o atendimento. O WhatsApp será aberto com a mensagem pronta para você revisar e enviar à nossa equipe.</p>
-    <div class="confirm-note"><strong>Importante:</strong> a solicitação só chega à equipe pelo WhatsApp depois que você tocar em <strong>Enviar</strong>. A data, o horário e os valores dependem de confirmação da KS.</div>
+    <div class="confirm-note"><strong>Próximo passo:</strong> confira seus dados e toque no botão abaixo. O WhatsApp abrirá para você revisar e enviar a mensagem. A data, o horário e os valores dependem de confirmação da KS.</div>
+    <button id="confirmSendButton" class="btn green" type="button" style="margin-top:14px;width:100%">Enviar solicitação pelo WhatsApp ↗</button>
   </div>
   <div class="hero">
     <div>
@@ -163,6 +164,7 @@ function updateFields(){
 }
 kind.addEventListener("change",updateFields); updateFields();
 requestForm.addEventListener("reset", () => {
+  window.ksPendingRequest = null;
   document.getElementById("requestConfirmation").style.display = "none";
   setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 0);
 });
@@ -205,15 +207,6 @@ requestForm.addEventListener("submit",async e=>{
   }
   try { localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify({ fingerprint, time: Date.now() })); } catch (_) {}
 
-  // Envia o pedido à planilha em segundo plano. O navegador não consegue ler
-  // a resposta por segurança (no-cors), por isso não mostramos confirmação de gravação.
-  fetch(SHEETS_WEB_APP_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(pedido)
-  }).catch(err => console.error("Não foi possível enviar à central KS:", err));
-
   const dataPreferida = v("date") ? v("date").split("-").reverse().join("/") : "Não informada";
   const linhas = [
     "*KS CÂMERAS*",
@@ -239,18 +232,41 @@ requestForm.addEventListener("submit",async e=>{
     "_Mensagem preparada pelo site da KS. A data, o horário e os valores dependem de confirmação da equipe._"
   );
   const msg = linhas.join("\n");
+  window.ksPendingRequest = { pedido, msg, wantsImage, dataPreferida };
   const confirmation = document.getElementById("requestConfirmation");
-  document.getElementById("confirmationGreeting").textContent = `Obrigado, ${pedido.nome}! A KS Câmeras preparou sua solicitação.`;
+  document.getElementById("confirmationGreeting").textContent = `Obrigado, ${pedido.nome}! Confira sua solicitação antes de enviar.`;
   confirmation.style.display = "block";
   confirmation.scrollIntoView({ behavior: "smooth", block: "center" });
+  submitRequest.disabled = false;
+  submitRequest.textContent = "Preparar outra solicitação";
+  submitRequest.setAttribute("data-pending", "true");
+});
+
+
+document.getElementById("confirmSendButton").addEventListener("click", async () => {
+  const pending = window.ksPendingRequest;
+  if (!pending) {
+    alert("Preencha o formulário e prepare a solicitação primeiro.");
+    return;
+  }
+  const button = document.getElementById("confirmSendButton");
+  button.disabled = true;
+  button.textContent = "Preparando envio…";
   try {
-    if (!wantsImage) {
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+    fetch(SHEETS_WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(pending.pedido)
+    }).catch(err => console.error("Não foi possível enviar à central KS:", err));
+
+    if (!pending.wantsImage) {
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(pending.msg)}`, "_blank", "noopener");
     } else {
-      const imageBlob = await makeRequestImage(pedido, v("date") ? v("date").split("-").reverse().join("/") : "Não informada");
+      const imageBlob = await makeRequestImage(pending.pedido, pending.dataPreferida);
       const imageFile = new File([imageBlob], "KS-Cameras-Solicitacao.png", { type: "image/png" });
       if (navigator.canShare && navigator.canShare({ files: [imageFile] }) && navigator.share) {
-        await navigator.share({ title: "Solicitação KS Câmeras", text: msg, files: [imageFile] });
+        await navigator.share({ title: "Solicitação KS Câmeras", text: pending.msg, files: [imageFile] });
       } else {
         const downloadUrl = URL.createObjectURL(imageBlob);
         const a = document.createElement("a");
@@ -260,19 +276,23 @@ requestForm.addEventListener("submit",async e=>{
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(downloadUrl), 30000);
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(pending.msg)}`, "_blank", "noopener");
         alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png antes de enviar.");
       }
     }
+    try {
+      const p = pending.pedido;
+      const fingerprint = JSON.stringify([p.telefone.replace(/\D/g, ""), p.tipo, p.cidade.toLowerCase(), p.equipamento, p.descricao.toLowerCase(), p.dataVisita, p.periodo]);
+      localStorage.setItem(REQUEST_STORAGE_KEY, JSON.stringify({ fingerprint, time: Date.now() }));
+    } catch (_) {}
   } catch (err) {
     if (!(err && err.name === "AbortError")) {
-      console.error("Falha ao gerar/compartilhar imagem:", err);
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-      alert("Não foi possível compartilhar a imagem automaticamente. O WhatsApp abrirá com o texto; você ainda pode enviar o pedido normalmente.");
+      console.error("Falha ao abrir o WhatsApp:", err);
+      alert("Não foi possível abrir o WhatsApp automaticamente. Tente novamente.");
     }
   } finally {
-    submitRequest.disabled = false;
-    submitRequest.textContent = "Continuar pelo WhatsApp ↗";
+    button.disabled = false;
+    button.textContent = "Enviar solicitação pelo WhatsApp ↗";
   }
 });
 
