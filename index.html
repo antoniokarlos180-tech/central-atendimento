@@ -14,6 +14,13 @@
 .btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:.18s}.btn:hover{transform:translateY(-1px)}.primary{background:var(--gold);color:#17130b}.secondary{background:var(--panel2);border:1px solid var(--line);color:var(--text)}.green{background:#25d366;color:#062b15}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter-spacing:-.6px;margin:0 0 7px}.section-sub{max-width:740px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.service{width:100%;text-align:left;border:1px solid var(--line);border-radius:18px;padding:19px;background:#101b2c;cursor:pointer;transition:.18s;min-height:170px;color:var(--text)}.service:hover,.service.active{border-color:var(--gold);background:#19283c;transform:translateY(-2px)}.ico{font-size:26px;margin-bottom:10px}.service h3{font-size:16px;margin:0 0 7px}.service p{font-size:13px;margin:0}
 .form-panel{border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--panel);display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{display:block;font-size:13px;color:#d9e4f5;font-weight:750;margin-bottom:6px}input,select,textarea{width:100%;background:#091321;color:var(--text);border:1px solid #34465f;border-radius:11px;padding:12px 13px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold)}textarea{min-height:110px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin-top:7px}.notice{border:1px solid #6e5c37;background:#292416;color:#f6e2b7;border-radius:12px;padding:12px 14px;font-size:13px;margin:16px 0}
+.confirmation{display:none;border:1px solid #3b9d75;background:linear-gradient(135deg,#102d29,#102033);color:#effff7;border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 12px 35px #0003}
+.confirmation-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.confirmation-mark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#1d6c4e;color:#d8ffeb;font-size:23px;font-weight:900;flex-shrink:0}
+.confirmation h3{margin:0;font-size:19px;color:#d8ffeb}
+.confirmation p{margin:6px 0 0;color:#c6ded7;font-size:14px}
+.confirmation .confirm-note{margin-top:12px;padding:10px 12px;border-radius:10px;background:#071923;border:1px solid #254c48;font-size:12px;color:#c9e6df}
+
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{padding:19px;border-radius:16px;border:1px solid var(--line);background:#101b2c}.step b{display:block;margin-bottom:5px}.step span{color:var(--muted);font-size:13px}
 .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.faq{border:1px solid var(--line);background:#101b2c;border-radius:14px;padding:16px}.faq summary{cursor:pointer;font-weight:750}.faq p{font-size:14px;margin:10px 0 0}
 .chat-box{border:1px solid var(--line);background:var(--panel);border-radius:22px;overflow:hidden}.chat-head{padding:17px 20px;background:#17263b;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}.chat-dot{width:11px;height:11px;background:var(--green);border-radius:50%;box-shadow:0 0 0 4px #6ee7b71b}.chat-head p{font-size:12px;margin:0}.chat-messages{height:290px;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:88%;padding:11px 13px;border-radius:14px;font-size:14px;white-space:pre-wrap}.bot{align-self:flex-start;background:#1b2c43;border:1px solid #30435d}.user{align-self:flex-end;background:#3b3424;border:1px solid #6e5c37}.chat-quick{padding:0 18px 14px;display:flex;gap:8px;flex-wrap:wrap}.quick{border:1px solid #475875;color:var(--text);background:#0b1626;padding:8px 11px;border-radius:999px;cursor:pointer;font-size:12px}.chat-form{display:flex;gap:9px;padding:14px;border-top:1px solid var(--line)}.chat-form input{flex:1;min-width:0}.footer{border-top:1px solid var(--line);padding:24px 0 36px;color:var(--muted);font-size:12px}.footer-row{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.small-link{color:var(--gold);text-decoration:none}
@@ -28,6 +35,14 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
 </header>
 <main class="wrap">
   <div id="welcomeBox" class="notice" style="display:none" aria-live="polite"></div>
+  <div id="requestConfirmation" class="confirmation" role="status" aria-live="polite">
+    <div class="confirmation-head">
+      <div class="confirmation-mark">✓</div>
+      <div><h3>Solicitação preparada com sucesso!</h3><p id="confirmationGreeting">Obrigado por entrar em contato com a KS Câmeras.</p></div>
+    </div>
+    <p>Seus dados foram organizados para o atendimento. O WhatsApp será aberto com a mensagem pronta para você revisar e enviar à nossa equipe.</p>
+    <div class="confirm-note"><strong>Importante:</strong> a solicitação só chega à equipe pelo WhatsApp depois que você tocar em <strong>Enviar</strong>. A data, o horário e os valores dependem de confirmação da KS.</div>
+  </div>
   <div class="hero">
     <div>
       <div class="eyebrow">Tecnologia e segurança</div>
@@ -148,6 +163,7 @@ function updateFields(){
 }
 kind.addEventListener("change",updateFields); updateFields();
 requestForm.addEventListener("reset", () => {
+  document.getElementById("requestConfirmation").style.display = "none";
   setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 0);
 });
 requestForm.addEventListener("submit",async e=>{
@@ -223,22 +239,29 @@ requestForm.addEventListener("submit",async e=>{
     "_Mensagem preparada pelo site da KS. A data, o horário e os valores dependem de confirmação da equipe._"
   );
   const msg = linhas.join("\n");
+  const confirmation = document.getElementById("requestConfirmation");
+  document.getElementById("confirmationGreeting").textContent = `Obrigado, ${pedido.nome}! A KS Câmeras preparou sua solicitação.`;
+  confirmation.style.display = "block";
+  confirmation.scrollIntoView({ behavior: "smooth", block: "center" });
   try {
     if (!wantsImage) {
-      // Caminho padrão: texto simples, rápido e compatível com computador e celular.
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
     } else {
       const imageBlob = await makeRequestImage(pedido, v("date") ? v("date").split("-").reverse().join("/") : "Não informada");
       const imageFile = new File([imageBlob], "KS-Cameras-Solicitacao.png", { type: "image/png" });
-      // Em navegadores compatíveis, abre o menu nativo para compartilhar imagem + texto.
       if (navigator.canShare && navigator.canShare({ files: [imageFile] }) && navigator.share) {
         await navigator.share({ title: "Solicitação KS Câmeras", text: msg, files: [imageFile] });
       } else {
         const downloadUrl = URL.createObjectURL(imageBlob);
-        const a = document.createElement("a"); a.href = downloadUrl; a.download = imageFile.name; document.body.appendChild(a); a.click(); a.remove();
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = imageFile.name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
         setTimeout(() => URL.revokeObjectURL(downloadUrl), 30000);
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-        alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png à conversa antes de enviar.");
+        alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png antes de enviar.");
       }
     }
   } catch (err) {
