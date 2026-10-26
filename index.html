@@ -85,8 +85,9 @@ section{padding:30px 0 42px}.section-title{font-size:clamp(23px,3vw,30px);letter
       <div class="full"><label for="details">Explique o que você precisa *</label><textarea id="details" name="details" required maxlength="1500" placeholder="Descreva o problema ou o serviço desejado..."></textarea></div>
       <div class="full"><label for="photo">Foto do equipamento (opcional)</label><input id="photo" type="file" accept="image/*" multiple><div class="hint">As fotos não são enviadas automaticamente pelo site. Depois que o WhatsApp abrir, anexe-as na conversa.</div></div>
       <div class="full"><label style="display:flex;align-items:center;gap:9px;font-weight:500"><input id="rememberClient" type="checkbox" checked style="width:auto"> Lembrar meus dados neste aparelho para facilitar o próximo atendimento</label></div>
-      <div class="full actions"><button id="submitRequest" class="btn green" type="submit">✦ Gerar imagem e compartilhar pelo WhatsApp</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
-      <div class="full hint">O site prepara uma imagem com os dados. Em aparelhos compatíveis, você poderá compartilhar imagem e texto pelo menu de compartilhamento; caso contrário, a imagem será baixada e o WhatsApp abrirá com o texto pronto para anexá-la manualmente.</div>
+      <div class="full"><label style="display:flex;align-items:center;gap:9px;font-weight:500"><input id="includeRequestImage" type="checkbox" style="width:auto"> Também quero gerar uma imagem bonita da solicitação (opcional)</label><div class="hint">Recomendado deixar desmarcado para enviar mais rápido. Se marcar, o site tentará compartilhar a imagem; se o navegador não permitir, ela será baixada para você anexar no WhatsApp.</div></div>
+      <div class="full actions"><button id="submitRequest" class="btn green" type="submit">Continuar pelo WhatsApp ↗</button><button class="btn secondary" type="reset">Limpar formulário</button></div>
+      <div class="full hint">O WhatsApp abrirá com a mensagem pronta. Confira os dados e toque em Enviar. Se quiser mostrar o equipamento, selecione uma foto acima e anexe-a diretamente na conversa.</div>
     </form>
   </section>
 
@@ -147,7 +148,7 @@ function updateFields(){
 }
 kind.addEventListener("change",updateFields); updateFields();
 requestForm.addEventListener("reset", () => {
-  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "✦ Gerar imagem e compartilhar pelo WhatsApp"; }, 0);
+  setTimeout(() => { submitRequest.disabled = false; submitRequest.textContent = "Continuar pelo WhatsApp ↗"; }, 0);
 });
 requestForm.addEventListener("submit",async e=>{
   e.preventDefault();
@@ -174,7 +175,8 @@ requestForm.addEventListener("submit",async e=>{
     }
   } catch (_) {}
   submitRequest.disabled = true;
-  submitRequest.textContent = "Preparando imagem…";
+  const wantsImage = document.getElementById("includeRequestImage").checked;
+  submitRequest.textContent = wantsImage ? "Preparando imagem…" : "Preparando mensagem…";
 
   if (document.getElementById("rememberClient").checked) {
     try {
@@ -222,30 +224,32 @@ requestForm.addEventListener("submit",async e=>{
   );
   const msg = linhas.join("\n");
   try {
-    const imageBlob = await makeRequestImage(pedido, v("date") ? v("date").split("-").reverse().join("/") : "Não informada");
-    const imageFile = new File([imageBlob], "KS-Cameras-Solicitacao.png", { type: "image/png" });
-    // Em navegadores compatíveis, abre o menu nativo para compartilhar imagem + texto.
-    if (navigator.canShare && navigator.canShare({ files: [imageFile] }) && navigator.share) {
-      await navigator.share({ title: "Solicitação KS Câmeras", text: msg, files: [imageFile] });
-    } else {
-      // Fallback gratuito: baixa a imagem e abre o WhatsApp com o texto preparado.
-      const downloadUrl = URL.createObjectURL(imageBlob);
-      const a = document.createElement("a"); a.href = downloadUrl; a.download = imageFile.name; document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(downloadUrl), 30000);
+    if (!wantsImage) {
+      // Caminho padrão: texto simples, rápido e compatível com computador e celular.
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-      alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png à conversa antes de enviar.");
+    } else {
+      const imageBlob = await makeRequestImage(pedido, v("date") ? v("date").split("-").reverse().join("/") : "Não informada");
+      const imageFile = new File([imageBlob], "KS-Cameras-Solicitacao.png", { type: "image/png" });
+      // Em navegadores compatíveis, abre o menu nativo para compartilhar imagem + texto.
+      if (navigator.canShare && navigator.canShare({ files: [imageFile] }) && navigator.share) {
+        await navigator.share({ title: "Solicitação KS Câmeras", text: msg, files: [imageFile] });
+      } else {
+        const downloadUrl = URL.createObjectURL(imageBlob);
+        const a = document.createElement("a"); a.href = downloadUrl; a.download = imageFile.name; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(downloadUrl), 30000);
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+        alert("A imagem da solicitação foi baixada. No WhatsApp, anexe o arquivo KS-Cameras-Solicitacao.png à conversa antes de enviar.");
+      }
     }
   } catch (err) {
-    if (err && err.name === "AbortError") {
-      // O usuário fechou o menu de compartilhamento; o pedido já foi preparado e registrado.
-    } else {
+    if (!(err && err.name === "AbortError")) {
       console.error("Falha ao gerar/compartilhar imagem:", err);
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
       alert("Não foi possível compartilhar a imagem automaticamente. O WhatsApp abrirá com o texto; você ainda pode enviar o pedido normalmente.");
     }
   } finally {
     submitRequest.disabled = false;
-    submitRequest.textContent = "✦ Gerar imagem e compartilhar pelo WhatsApp";
+    submitRequest.textContent = "Continuar pelo WhatsApp ↗";
   }
 });
 
