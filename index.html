@@ -87,6 +87,8 @@
     .btn-primary { color: #fff; background: linear-gradient(120deg, #00adff, #0756d7); border-color: #00c5ff; box-shadow: 0 0 19px rgba(0,153,255,.35), inset 0 1px 0 rgba(255,255,255,.35); }
     .btn-whatsapp { color: #f7fff9; background: rgba(2,15,23,.68); border-color: #08aaff; box-shadow: inset 0 0 18px rgba(0,145,255,.08); }
     .btn-whatsapp svg { width: 28px; height: 28px; fill: none; stroke: #00e27b; stroke-width: 2; }
+    .btn-resume { color:#dff7ff; background:rgba(0,110,170,.16); border-color:#16c7ff; box-shadow:inset 0 0 18px rgba(0,145,255,.12),0 0 15px rgba(0,145,255,.12); }
+    .btn-resume:hover { background:rgba(0,145,255,.28); }
     .chat-mark { width: 22px; height: 22px; flex: 0 0 22px; display: inline-block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
     .assistant-fab .chat-mark { width: 19px; height: 19px; flex-basis: 19px; }
     .section-wrap { padding: 7px clamp(28px, 4.2vw, 70px) 0; position: relative; z-index: 2; }
@@ -229,8 +231,14 @@
     .ks-primary{min-height:48px;border:1px solid #11baff;border-radius:11px;background:linear-gradient(110deg,#08aaff,#075bdc);color:white;font-weight:850;cursor:pointer}.ks-primary:disabled{opacity:.6;cursor:wait}
     .ks-whatsapp-link{display:block;text-align:center;padding:12px;border:1px solid rgba(0,220,125,.55);border-radius:10px;color:#65ffc0;font-weight:750;font-size:14px}
     .ks-privacy{margin:0;font-size:11px}.ks-error{color:#ff9b9b;font-size:12px;min-height:16px;margin:0}
+    .ks-chat-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
     .ks-chat-toolbar,.ks-admin-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.ks-chat-toolbar strong{font-size:16px}
     .ks-copy{border:1px solid rgba(35,170,255,.42);border-radius:9px;background:#0b2942;color:#c9eaff;padding:8px 11px;cursor:pointer;font-size:12px;font-weight:750}
+    .ks-admin-notify-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:-2px 0 12px}
+    .ks-whatsapp-notify{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 13px;border:1px solid rgba(0,226,123,.75);border-radius:10px;background:linear-gradient(120deg,#087d4e,#075d43);color:#effff7;font-size:13px;font-weight:800;text-decoration:none;box-shadow:0 0 14px rgba(0,226,123,.15)}
+    .ks-whatsapp-notify:hover{background:linear-gradient(120deg,#09935b,#08704f)}
+    .ks-whatsapp-notify svg{width:20px;height:20px;fill:none;stroke:#b5ffda;stroke-width:1.8;flex:0 0 auto}
+    .ks-admin-notify-row .ks-muted{font-size:11px;margin:0}
     .ks-messages{height:340px;max-height:46vh;overflow:auto;padding:14px;border:1px solid rgba(64,152,213,.2);border-radius:13px;background:radial-gradient(ellipse at top,#0a2339,#04111e 68%);display:flex;flex-direction:column;gap:10px}
     .ks-bubble{max-width:84%;padding:10px 12px;border-radius:13px;font-size:14px;line-height:1.45;overflow-wrap:anywhere}.ks-bubble p{margin:5px 0}.ks-bubble small,.ks-bubble time{display:block;font-size:10px;color:#c0d7e8;opacity:.8}.ks-bubble time{text-align:right;margin-top:6px}
     .ks-bubble.mine{align-self:flex-end;background:linear-gradient(130deg,#075da6,#06477c);border:1px solid rgba(58,180,255,.35);border-bottom-right-radius:4px}.ks-bubble.theirs{align-self:flex-start;background:#142a3c;border:1px solid rgba(155,198,226,.16);border-bottom-left-radius:4px}.ks-empty-chat{margin:auto;color:#a9c1d4;text-align:center;font-size:13px}
@@ -267,6 +275,7 @@
         <div class="hero-actions">
           <button class="btn btn-primary" type="button" id="openAssistant"><svg class="chat-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01"/></svg> Falar com o Assistente</button>
           <a class="btn btn-whatsapp" id="heroWhatsapp" href="https://wa.me/558293673659" target="_blank" rel="noopener"><svg viewBox="0 0 32 32"><path d="M26 15.5a10 10 0 0 1-14.8 8.8L5 26l1.7-5.9A10 10 0 1 1 26 15.5Z"/><path d="M12 10.5c.4-.6 1-.5 1.3 0l1.2 2c.2.4.1.8-.3 1.2l-.8.8c1 2 2.3 3.2 4.3 4.1l.8-.9c.3-.4.8-.5 1.2-.2l1.9 1.1c.6.3.6.9.2 1.4-.7.9-1.5 1.4-2.6 1.3-4.5-.5-8.9-4.8-9.3-9.1-.1-.7.5-1.3 1.1-1.7Z"/></svg> Atendimento via WhatsApp</a>
+          <button class="btn btn-resume" type="button" id="resumeChatButton" hidden>Continuar meu atendimento</button>
         </div>
       </div>
     </section>
@@ -324,10 +333,10 @@
       </form>
     </div>
     <div class="ks-dialog-body" id="clientChatStage" hidden>
-      <div class="ks-chat-toolbar"><div><strong id="clientChatTitle">Atendimento KS</strong><small id="clientChatMeta">Conversa privada</small></div><button type="button" class="ks-copy" id="copyPrivateLink">Copiar link privado</button></div>
+      <div class="ks-chat-toolbar"><div><strong id="clientChatTitle">Atendimento KS</strong><small id="clientChatMeta">Conversa privada · mensagens atualizadas automaticamente</small></div><div class="ks-chat-actions"><button type="button" class="ks-copy" id="newClientRequest">Novo atendimento</button><button type="button" class="ks-copy" id="copyPrivateLink">Copiar link privado</button></div></div>
       <div class="ks-messages" id="clientMessages" aria-live="polite"></div>
       <form class="ks-send-form" id="clientSendForm"><input id="clientMessageInput" maxlength="3000" placeholder="Digite sua mensagem..." autocomplete="off" required><button type="submit" aria-label="Enviar mensagem">Enviar</button></form>
-      <p class="ks-privacy">Guarde seu link privado para voltar a esta conversa em outro momento. Não compartilhe com terceiros.</p>
+      <p class="ks-privacy">Para voltar neste aparelho, use “Continuar meu atendimento”. Em outro aparelho, use “Copiar link privado”. Não compartilhe esse link com terceiros.</p>
       <p class="ks-error" id="clientChatError" role="alert"></p>
     </div>
   </section>
@@ -343,7 +352,7 @@
     </div>
     <div class="ks-dialog-body" id="adminPanelStage" hidden>
       <div class="ks-admin-top"><strong>Conversas recebidas</strong><div><button class="ks-copy" id="refreshAdmin">Atualizar</button><button class="ks-copy" id="adminLogout">Sair</button></div></div>
-      <div class="ks-admin-layout"><aside class="ks-inbox" id="adminInbox"><p class="ks-muted">Carregando conversas...</p></aside><section class="ks-admin-chat"><div class="ks-admin-chat-title" id="adminChatTitle">Selecione uma conversa</div><div class="ks-messages" id="adminMessages" aria-live="polite"></div><form class="ks-send-form" id="adminSendForm"><input id="adminMessageInput" maxlength="3000" placeholder="Responder ao cliente..." autocomplete="off" required disabled><button type="submit" disabled>Enviar</button></form><div class="ks-status-row"><label>Status <select id="adminStatus" disabled><option value="open">Em aberto</option><option value="in_progress">Em atendimento</option><option value="closed">Finalizado</option></select></label><button class="ks-copy" id="saveStatus" disabled>Salvar status</button></div><p class="ks-error" id="adminChatError" role="alert"></p></section></div>
+      <div class="ks-admin-layout"><aside class="ks-inbox" id="adminInbox"><p class="ks-muted">Carregando conversas...</p></aside><section class="ks-admin-chat"><div class="ks-admin-chat-title" id="adminChatTitle">Selecione uma conversa</div><div class="ks-messages" id="adminMessages" aria-live="polite"></div><form class="ks-send-form" id="adminSendForm"><input id="adminMessageInput" maxlength="3000" placeholder="Responder ao cliente..." autocomplete="off" required disabled><button type="submit" disabled>Enviar</button></form><div class="ks-admin-notify-row"><a class="ks-whatsapp-notify" id="adminNotifyWhatsapp" href="#" target="_blank" rel="noopener noreferrer" hidden><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M26 15.5a10 10 0 0 1-14.8 8.8L5 26l1.7-5.9A10 10 0 1 1 26 15.5Z"/><path d="M12 10.5c.4-.6 1-.5 1.3 0l1.2 2c.2.4.1.8-.3 1.2l-.8.8c1 2 2.3 3.2 4.3 4.1l.8-.9c.3-.4.8-.5 1.2-.2l1.9 1.1c.6.3.6.9.2 1.4-.7.9-1.5 1.4-2.6 1.3-4.5-.5-8.9-4.8-9.3-9.1-.1-.7.5-1.3 1.1-1.7Z"/></svg> Avisar cliente pelo WhatsApp</a><span class="ks-muted" id="adminNotifyHint">Depois de responder, você poderá avisar o cliente pelo WhatsApp.</span></div><div class="ks-status-row"><label>Status <select id="adminStatus" disabled><option value="open">Em aberto</option><option value="in_progress">Em atendimento</option><option value="closed">Finalizado</option></select></label><button class="ks-copy" id="saveStatus" disabled>Salvar status</button></div><p class="ks-error" id="adminChatError" role="alert"></p></section></div>
     </div>
   </section>
 </div>
@@ -360,7 +369,7 @@
   const $ = (id) => document.getElementById(id);
   const escapeHTML = (value='') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const showModal = (id) => { $(id).classList.add('is-open'); $(id).setAttribute('aria-hidden','false'); document.body.classList.add('ks-lock'); };
-  const hideModal = (id) => { $(id).classList.remove('is-open'); $(id).setAttribute('aria-hidden','true'); if (!document.querySelector('.ks-modal.is-open')) document.body.classList.remove('ks-lock'); };
+  const hideModal = (id) => { $(id).classList.remove('is-open'); $(id).setAttribute('aria-hidden','true'); if(id==='clientModal' && clientPoll){clearInterval(clientPoll);clientPoll=null;} if (!document.querySelector('.ks-modal.is-open')) document.body.classList.remove('ks-lock'); };
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => hideModal(b.dataset.close)));
   document.querySelectorAll('.ks-modal').forEach(m => m.addEventListener('click', e => { if(e.target === m) hideModal(m.id); }));
   document.addEventListener('keydown', e => { if(e.key === 'Escape') document.querySelectorAll('.ks-modal.is-open').forEach(m => hideModal(m.id)); });
@@ -368,13 +377,50 @@
   let activeConversation = null;
   let activeToken = null;
   let selectedAdminConversation = null;
+  let currentAdminConversation = null;
+  let adminConversationCache = [];
   let clientPoll = null;
   let adminPoll = null;
 
   function newToken(){ const bytes = new Uint8Array(32); crypto.getRandomValues(bytes); return Array.from(bytes, b => b.toString(16).padStart(2,'0')).join(''); }
   function privateLink(id, token){ return `${location.origin}${location.pathname}#atendimento=${encodeURIComponent(id)}&chave=${encodeURIComponent(token)}`; }
+  // Link de notificação não expõe a chave privada: ele recupera a chave já salva
+  // no navegador do cliente, por isso deve ser aberto no mesmo aparelho/navegador.
+  function resumeLink(id){ return `${location.origin}${location.pathname}#retomar=${encodeURIComponent(id)}`; }
+  function normalizeBrazilPhone(raw){
+    let digits=String(raw||'').replace(/\D/g,'');
+    if(digits.startsWith('55')) return digits;
+    if(digits.length===10 || digits.length===11) return '55'+digits;
+    return digits;
+  }
   function readPrivateAccess(){ const params = new URLSearchParams(location.hash.slice(1)); const id=params.get('atendimento'), token=params.get('chave'); return id && token ? {id,token} : null; }
-  function savePrivateAccess(id,token){ localStorage.setItem(`ks_chat_${id}`,token); history.replaceState(null,'',privateLink(id,token)); }
+  function savePrivateAccess(id,token){
+    localStorage.setItem(`ks_chat_${id}`,token);
+    localStorage.setItem('ks_last_chat_id',id);
+    history.replaceState(null,'',privateLink(id,token));
+    $('resumeChatButton').hidden=false;
+    $('assistantFab').textContent='Continuar atendimento';
+  }
+  function readSavedPrivateAccess(){
+    const id=localStorage.getItem('ks_last_chat_id');
+    const token=id ? localStorage.getItem(`ks_chat_${id}`) : null;
+    return id && token ? {id,token} : null;
+  }
+  function activateClientChat(id,token,title='Seu atendimento KS',meta='Conversa privada'){
+    activeConversation=id; activeToken=token;
+    $('clientStage').hidden=true; $('clientChatStage').hidden=false;
+    $('clientChatTitle').textContent=title; $('clientChatMeta').textContent=meta+' · mensagens atualizadas automaticamente';
+    $('resumeChatButton').hidden=false; $('assistantFab').textContent='Continuar atendimento';
+    showModal('clientModal');
+    loadClientMessages(); startClientPolling();
+  }
+  function openSavedClientChat(){
+    if(!activeConversation || !activeToken){ openIntake(); return; }
+    $('clientStage').hidden=true; $('clientChatStage').hidden=false;
+    $('clientChatTitle').textContent='Seu atendimento KS';
+    $('clientChatMeta').textContent='Conversa privada · mensagens atualizadas automaticamente';
+    showModal('clientModal'); loadClientMessages(); startClientPolling();
+  }
   function renderMessages(target, rows, role){
     const box=$(target); const wasNearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<90;
     if(!rows || !rows.length){ box.innerHTML='<div class="ks-empty-chat">Atendimento iniciado. Envie sua mensagem para nossa equipe.</div>'; return; }
@@ -388,8 +434,10 @@
     showModal('clientModal');
   }
   document.querySelectorAll('[data-service]').forEach(card => card.addEventListener('click', e => { e.preventDefault(); openIntake(card.dataset.service); }));
-  $('openAssistant').addEventListener('click', () => openIntake());
-  $('assistantFab').addEventListener('click', () => openIntake());
+  $('openAssistant').addEventListener('click', () => activeConversation && activeToken ? openSavedClientChat() : openIntake());
+  $('assistantFab').addEventListener('click', () => activeConversation && activeToken ? openSavedClientChat() : openIntake());
+  $('resumeChatButton').addEventListener('click', openSavedClientChat);
+  $('newClientRequest').addEventListener('click', () => { if(clientPoll){clearInterval(clientPoll);clientPoll=null;} openIntake('Suporte Técnico'); });
   $('chatChoices')?.addEventListener('click', e => { const b=e.target.closest('[data-choice]'); if(b) openIntake(b.dataset.choice); });
 
   async function createConversation(e){
@@ -399,9 +447,8 @@
     try{
       const {data,error}=await sbClient.rpc('ks_start_conversation',{p_name:name,p_phone:phone,p_city:city,p_category:category,p_details:details,p_token:token});
       if(error) throw error;
-      activeConversation=data; activeToken=token; savePrivateAccess(data,token);
-      $('clientStage').hidden=true; $('clientChatStage').hidden=false; $('clientChatTitle').textContent=`Atendimento: ${category}`; $('clientChatMeta').textContent=`${name} · ${city || 'Local não informado'}`;
-      showModal('clientModal'); await loadClientMessages(); startClientPolling();
+      savePrivateAccess(data,token);
+      activateClientChat(data,token,`Atendimento: ${category}`,`${name} · ${city || 'Local não informado'}`);
     }catch(err){ setError('clientFormError',err.message || 'Não foi possível abrir o atendimento. Confira se o SQL do Supabase já foi executado.'); }
     finally{button.disabled=false;button.textContent='Iniciar conversa no site';}
   }
@@ -409,20 +456,52 @@
   async function loadClientMessages(){ if(!activeConversation||!activeToken) return; const {data,error}=await sbClient.rpc('ks_client_get_messages',{p_conversation_id:activeConversation,p_token:activeToken}); if(error){setError('clientChatError',error.message);return;} renderMessages('clientMessages',data,'client'); }
   function startClientPolling(){ if(clientPoll) clearInterval(clientPoll); clientPoll=setInterval(loadClientMessages,4000); }
   $('clientSendForm').addEventListener('submit',async e=>{e.preventDefault();const input=$('clientMessageInput'),body=input.value.trim();if(!body)return;input.disabled=true;try{const {error}=await sbClient.rpc('ks_client_send_message',{p_conversation_id:activeConversation,p_token:activeToken,p_body:body});if(error)throw error;input.value='';await loadClientMessages();setError('clientChatError','');}catch(err){setError('clientChatError',err.message || 'Falha ao enviar mensagem.');}finally{input.disabled=false;input.focus();}});
-  $('copyPrivateLink').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(privateLink(activeConversation,activeToken));$('copyPrivateLink').textContent='Link copiado!';}catch{setError('clientChatError','Não foi possível copiar automaticamente. Copie o endereço desta página para guardar seu acesso.');}});
+  $('copyPrivateLink').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(privateLink(activeConversation,activeToken));$('copyPrivateLink').textContent='Link copiado!';setError('clientChatError','Guarde este link privado. Ele permite voltar a esta conversa em outro aparelho. Não compartilhe com outras pessoas.');}catch{setError('clientChatError','Não foi possível copiar automaticamente. Use o endereço completo desta página para guardar seu acesso privado.');}});
 
-  // Retoma uma conversa se o cliente abrir o link privado completo.
-  async function resumePrivateChat(){ const access=readPrivateAccess(); if(!access)return; activeConversation=access.id; activeToken=access.token; $('clientStage').hidden=true; $('clientChatStage').hidden=false; $('clientChatTitle').textContent='Seu atendimento KS'; $('clientChatMeta').textContent='Acesso privado'; showModal('clientModal'); await loadClientMessages(); startClientPolling(); }
+  // Link privado funciona em qualquer aparelho; no mesmo navegador também recupera o último atendimento salvo.
+  async function resumePrivateChat(){
+    const params=new URLSearchParams(location.hash.slice(1));
+    const resumeId=params.get('retomar');
+    const directAccess=readPrivateAccess();
+    const access=directAccess || (resumeId ? {id:resumeId,token:localStorage.getItem(`ks_chat_${resumeId}`)} : null) || readSavedPrivateAccess();
+    if(!access) return;
+    if(!access.token){
+      openIntake('Suporte Técnico');
+      setError('clientFormError','Para abrir esta conversa, use o mesmo aparelho e navegador em que o atendimento foi iniciado. Se trocou de aparelho, solicite ao cliente o link privado completo.');
+      return;
+    }
+    activeConversation=access.id; activeToken=access.token;
+    $('resumeChatButton').hidden=false; $('assistantFab').textContent='Continuar atendimento';
+    if(directAccess || resumeId) {
+      history.replaceState(null,'',location.pathname);
+      activateClientChat(access.id,access.token,'Seu atendimento KS','Acesso privado');
+    }
+  }
 
   $('openAdmin').addEventListener('click',()=>{showModal('adminModal');checkAdminSession();});
   async function checkAdminSession(){ const {data}=await sbClient.auth.getSession(); if(data.session){$('adminLoginStage').hidden=true;$('adminPanelStage').hidden=false;await loadAdminInbox();startAdminPolling();}else{$('adminLoginStage').hidden=false;$('adminPanelStage').hidden=true;} }
   $('adminLoginForm').addEventListener('submit',async e=>{e.preventDefault();setError('adminLoginError','');const {error}=await sbClient.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});if(error){setError('adminLoginError',error.message);return;}await checkAdminSession();});
-  async function loadAdminInbox(){const {data,error}=await sbClient.rpc('ks_admin_list_conversations');if(error){setError('adminChatError',error.message);return;}const list=$('adminInbox');if(!data?.length){list.innerHTML='<p class="ks-muted">Nenhum atendimento recebido ainda.</p>';return;}list.innerHTML=data.map(c=>`<button class="ks-inbox-item ${selectedAdminConversation===c.id?'selected':''}" data-id="${c.id}"><strong>${escapeHTML(c.name)}</strong><span>${escapeHTML(c.category)} · ${escapeHTML(c.city||'Sem localização')}</span><small>${c.status==='closed'?'Finalizado':c.status==='in_progress'?'Em atendimento':'Em aberto'} · ${new Date(c.last_message_at||c.created_at).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})}</small></button>`).join('');}
-  $('adminInbox').addEventListener('click',async e=>{const b=e.target.closest('[data-id]');if(!b)return;selectedAdminConversation=b.dataset.id;await loadAdminInbox();await loadAdminMessages();});
-  async function loadAdminMessages(){if(!selectedAdminConversation)return;const {data,error}=await sbClient.rpc('ks_admin_get_messages',{p_conversation_id:selectedAdminConversation});if(error){setError('adminChatError',error.message);return;}renderMessages('adminMessages',data,'admin');const {data:conv}=await sbClient.rpc('ks_admin_get_conversation',{p_conversation_id:selectedAdminConversation});const conversation=Array.isArray(conv)?conv[0]:conv;if(conversation){$('adminChatTitle').textContent=`${conversation.name} · ${conversation.category} · ${conversation.phone}`;$('adminStatus').value=conversation.status;}$('adminMessageInput').disabled=false;$('adminSendForm').querySelector('button').disabled=false;$('adminStatus').disabled=false;$('saveStatus').disabled=false;}
+  async function loadAdminInbox(){const {data,error}=await sbClient.rpc('ks_admin_list_conversations');if(error){setError('adminChatError',error.message);return;}adminConversationCache=data||[];const list=$('adminInbox');if(!adminConversationCache.length){list.innerHTML='<p class="ks-muted">Nenhum atendimento recebido ainda.</p>';return;}list.innerHTML=adminConversationCache.map(c=>`<button class="ks-inbox-item ${selectedAdminConversation===c.id?'selected':''}" data-id="${c.id}"><strong>${escapeHTML(c.name)}</strong><span>${escapeHTML(c.category)} · ${escapeHTML(c.city||'Sem localização')}</span><small>${c.status==='closed'?'Finalizado':c.status==='in_progress'?'Em atendimento':'Em aberto'} · ${new Date(c.last_message_at||c.created_at).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})}</small></button>`).join('');}
+  $('adminInbox').addEventListener('click',async e=>{const b=e.target.closest('[data-id]');if(!b)return;selectedAdminConversation=b.dataset.id;currentAdminConversation=adminConversationCache.find(c=>c.id===selectedAdminConversation)||null;$('adminNotifyWhatsapp').hidden=true;$('adminNotifyHint').textContent='Responda ao cliente para liberar o aviso pelo WhatsApp.';await loadAdminInbox();await loadAdminMessages();});
+  async function loadAdminMessages(){if(!selectedAdminConversation)return;const {data,error}=await sbClient.rpc('ks_admin_get_messages',{p_conversation_id:selectedAdminConversation});if(error){setError('adminChatError',error.message);return;}renderMessages('adminMessages',data,'admin');const {data:conv}=await sbClient.rpc('ks_admin_get_conversation',{p_conversation_id:selectedAdminConversation});const conversation=Array.isArray(conv)?conv[0]:conv;if(conversation){currentAdminConversation={...(currentAdminConversation||{}),...conversation,id:selectedAdminConversation};$('adminChatTitle').textContent=`${conversation.name} · ${conversation.category} · ${conversation.phone}`;$('adminStatus').value=conversation.status;}$('adminMessageInput').disabled=false;$('adminSendForm').querySelector('button').disabled=false;$('adminStatus').disabled=false;$('saveStatus').disabled=false;}
+  function prepareWhatsAppNotification(message){
+    const c=currentAdminConversation;
+    const phone=normalizeBrazilPhone(c?.phone);
+    const link=c?.id ? resumeLink(c.id) : '';
+    if(!phone || phone.length<12){
+      $('adminNotifyWhatsapp').hidden=true;
+      $('adminNotifyHint').textContent='Este cadastro não possui um telefone válido para WhatsApp.';
+      return;
+    }
+    const firstName=(c.name||'').trim().split(/\s+/)[0] || 'tudo bem';
+    const text=`Olá, ${firstName}! A equipe da KS Câmeras respondeu ao seu atendimento de ${c.category||'suporte'}.\n\nPara visualizar a resposta e continuar a conversa, acesse este link no mesmo aparelho e navegador em que iniciou o atendimento:\n${link}\n\nKS Câmeras · Central de Atendimento`;
+    $('adminNotifyWhatsapp').href=`https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+    $('adminNotifyWhatsapp').hidden=false;
+    $('adminNotifyHint').textContent='O WhatsApp abrirá com o aviso pronto. Confira e toque em Enviar.';
+  }
   function startAdminPolling(){if(adminPoll)clearInterval(adminPoll);adminPoll=setInterval(async()=>{await loadAdminInbox();if(selectedAdminConversation)await loadAdminMessages();},5000);}
   $('refreshAdmin').addEventListener('click',async()=>{await loadAdminInbox();if(selectedAdminConversation)await loadAdminMessages();});
-  $('adminSendForm').addEventListener('submit',async e=>{e.preventDefault();if(!selectedAdminConversation)return;const input=$('adminMessageInput'),body=input.value.trim();if(!body)return;input.disabled=true;try{const {error}=await sbClient.rpc('ks_admin_send_message',{p_conversation_id:selectedAdminConversation,p_body:body});if(error)throw error;input.value='';await loadAdminMessages();await loadAdminInbox();setError('adminChatError','');}catch(err){setError('adminChatError',err.message||'Falha ao enviar resposta.');}finally{input.disabled=false;}});
+  $('adminSendForm').addEventListener('submit',async e=>{e.preventDefault();if(!selectedAdminConversation)return;const input=$('adminMessageInput'),body=input.value.trim();if(!body)return;input.disabled=true;$('adminNotifyWhatsapp').hidden=true;$('adminNotifyHint').textContent='Salvando sua resposta...';try{const {error}=await sbClient.rpc('ks_admin_send_message',{p_conversation_id:selectedAdminConversation,p_body:body});if(error)throw error;input.value='';await loadAdminMessages();await loadAdminInbox();if(!currentAdminConversation)currentAdminConversation=adminConversationCache.find(c=>c.id===selectedAdminConversation)||null;prepareWhatsAppNotification(body);setError('adminChatError','Resposta salva no histórico. Agora você pode avisar o cliente pelo WhatsApp.');}catch(err){setError('adminChatError',err.message||'Falha ao enviar resposta.');$('adminNotifyHint').textContent='Não foi possível preparar o aviso porque a resposta não foi salva.';}finally{input.disabled=false;}});
   $('saveStatus').addEventListener('click',async()=>{if(!selectedAdminConversation)return;const {error}=await sbClient.rpc('ks_admin_set_status',{p_conversation_id:selectedAdminConversation,p_status:$('adminStatus').value});setError('adminChatError',error?error.message:'Status atualizado.');await loadAdminInbox();});
   $('adminLogout').addEventListener('click',async()=>{await sbClient.auth.signOut();if(adminPoll)clearInterval(adminPoll);selectedAdminConversation=null;$('adminLoginStage').hidden=false;$('adminPanelStage').hidden=true;});
 
