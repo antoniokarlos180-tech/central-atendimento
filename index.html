@@ -594,7 +594,7 @@
       <div class="benefit"><svg viewBox="0 0 52 52"><path d="M26 48S8 29 8 19a18 18 0 1 1 36 0c0 10-18 29-18 29Z"/><circle cx="26" cy="19" r="6"/></svg><strong>Atendimento em<span>Marechal Deodoro e Região</span></strong></div>
     </section>
   </main>
-  <footer>KS Câmeras · Central de Atendimento <button type="button" class="master-access" id="openAdmin">Acesso Mestre</button></footer>
+  <footer>KS Câmeras · Central de Atendimento</footer>
 </div>
 
 <button class="assistant-fab" type="button" id="assistantFab">Abrir atendimento</button>
@@ -791,7 +791,26 @@
     }
   }
 
-  $('openAdmin').addEventListener('click',()=>{showModal('adminModal');checkAdminSession();});
+  // Acesso Mestre discreto: toque/clique 5 vezes rápidas na logo da KS.
+  // O painel continua protegido pelo login do Supabase.
+  let masterTapCount = 0;
+  let masterTapTimer = null;
+  const brandTrigger = document.querySelector('.brand');
+  if (brandTrigger) {
+    brandTrigger.addEventListener('click', (event) => {
+      masterTapCount += 1;
+      if (masterTapTimer) clearTimeout(masterTapTimer);
+      masterTapTimer = setTimeout(() => { masterTapCount = 0; }, 2500);
+      if (masterTapCount >= 5) {
+        event.preventDefault();
+        masterTapCount = 0;
+        clearTimeout(masterTapTimer);
+        masterTapTimer = null;
+        showModal('adminModal');
+        checkAdminSession();
+      }
+    });
+  }
   async function checkAdminSession(){ const {data}=await sbClient.auth.getSession(); if(data.session){$('adminLoginStage').hidden=true;$('adminPanelStage').hidden=false;await loadAdminInbox();startAdminPolling();}else{$('adminLoginStage').hidden=false;$('adminPanelStage').hidden=true;} }
   $('adminLoginForm').addEventListener('submit',async e=>{e.preventDefault();setError('adminLoginError','');const {error}=await sbClient.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});if(error){setError('adminLoginError',error.message);return;}await checkAdminSession();});
   async function loadAdminInbox(){const {data,error}=await sbClient.rpc('ks_admin_list_conversations');if(error){setError('adminChatError',error.message);return;}adminConversationCache=data||[];const list=$('adminInbox');if(!adminConversationCache.length){list.innerHTML='<p class="ks-muted">Nenhum atendimento recebido ainda.</p>';return;}list.innerHTML=adminConversationCache.map(c=>`<button class="ks-inbox-item ${selectedAdminConversation===c.id?'selected':''}" data-id="${c.id}"><strong>${escapeHTML(c.name)}</strong><span>${escapeHTML(c.category)} · ${escapeHTML(c.city||'Sem localização')}</span><small>${c.status==='closed'?'Finalizado':c.status==='in_progress'?'Em atendimento':'Em aberto'} · ${new Date(c.last_message_at||c.created_at).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})}</small></button>`).join('');}
