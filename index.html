@@ -302,6 +302,183 @@
     [hidden]{display:none!important}
     @media(max-width:700px){.ks-modal{padding:9px}.ks-dialog{max-height:96vh;border-radius:15px}.ks-dialog-body{padding:14px}.ks-form-grid{grid-template-columns:1fr}.ks-admin-layout{grid-template-columns:1fr}.ks-inbox{max-height:170px}.ks-messages{height:300px}.ks-chat-toolbar{align-items:flex-start}.assistant-fab{right:12px;bottom:12px}.ks-bubble{max-width:92%}}
 
+  
+    /* ===== KS CÂMERAS — EXPERIÊNCIA MOBILE / VERTICAL ===== */
+    @media (max-width: 900px) {
+      .topbar {
+        height: auto;
+        min-height: 0;
+        padding: 14px 18px 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+      .brand { width: 100%; justify-content: center; }
+      .brand-logo { width: min(72vw, 390px); max-height: 76px; }
+      .nav-process {
+        width: min(100%, 680px);
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .nav-preview { width: 100%; min-width: 0; flex: auto; }
+      .nav-preview-trigger { height: 86px; border-radius: 12px; }
+      .nav-preview-label { left: 10px; right: 30px; bottom: 9px; font-size: 12px; }
+      .nav-preview-popover { width: 100%; }
+    }
+
+    @media (max-width: 760px) {
+      html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+      .site-shell { width: 100%; overflow: clip; }
+      .topbar {
+        padding: 12px 12px 14px;
+        gap: 11px;
+      }
+      .brand-logo { width: min(82vw, 340px); max-height: 68px; }
+      .nav-process {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .nav-preview { min-width: 0; }
+      .nav-preview-trigger {
+        height: 82px;
+        border-radius: 11px;
+        touch-action: manipulation;
+      }
+      .nav-preview-thumb { object-position: center; }
+      .nav-preview-label { left: 8px; right: 27px; bottom: 8px; font-size: 11px; line-height: 1.15; }
+      .nav-preview-plus { width: 18px; height: 18px; right: 6px; top: 6px; }
+      /* No celular, a prévia abre dentro do fluxo da página, nunca fora da tela. */
+      .nav-preview.is-open { grid-column: 1 / -1; width: 100%; }
+      .nav-preview-popover,
+      .nav-preview:nth-child(1) .nav-preview-popover,
+      .nav-preview:nth-child(4) .nav-preview-popover,
+      .nav-preview:nth-child(even) .nav-preview-popover {
+        position: relative;
+        inset: auto;
+        left: auto;
+        right: auto;
+        top: auto;
+        width: 100%;
+        max-height: 0;
+        margin-top: 0;
+        padding: 0 14px;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: none;
+        transform-origin: top center;
+        transition: max-height .28s ease, opacity .22s ease, padding .22s ease, margin .22s ease, visibility .22s;
+      }
+      .nav-preview.is-open .nav-preview-popover,
+      .nav-preview.is-open:nth-child(1) .nav-preview-popover,
+      .nav-preview.is-open:nth-child(4) .nav-preview-popover,
+      .nav-preview.is-open:nth-child(even) .nav-preview-popover {
+        max-height: 390px;
+        margin-top: 8px;
+        padding: 14px;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: none;
+      }
+      /* Evita que o estado :hover do toque abra cards involuntariamente. */
+      .nav-preview:not(.is-open):hover .nav-preview-popover,
+      .nav-preview:not(.is-open):focus-within .nav-preview-popover {
+        max-height: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: none;
+      }
+      .nav-preview-popover-title { font-size: 16px; }
+      .nav-preview-popover p { font-size: 13px; line-height: 1.5; }
+      .nav-preview-process-title { font-size: 11px; }
+      .nav-preview-popover li { font-size: 12px; line-height: 1.45; }
+      .nav-preview-footnote { font-size: 10px; }
+
+      .hero {
+        min-height: 0;
+        padding: 30px 20px 205px;
+        align-items: flex-start;
+      }
+      .hero-copy { width: 100%; max-width: 100%; }
+      h1 { max-width: 100%; font-size: clamp(34px, 9.2vw, 45px); line-height: 1.04; overflow-wrap: anywhere; }
+      .hero-text { max-width: 100%; font-size: 15px; line-height: 1.5; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; width: 100%; gap: 9px; }
+      .hero-actions .btn { width: 100%; min-height: 49px; justify-content: center; white-space: normal; text-align: center; }
+      .hero-photo { width: 100%; height: 54%; top: auto; bottom: 0; background-position: center 44%; opacity: .72; }
+
+      .section-wrap { padding: 23px 14px 0; }
+      .section-heading { align-items: flex-start; gap: 10px; }
+      .section-heading h2 { font-size: clamp(21px, 6vw, 25px); line-height: 1.2; }
+      .section-sub { margin-left: 17px; font-size: 13px; line-height: 1.45; }
+      /* Um cartão por linha melhora leitura e toque em tela vertical. */
+      .service-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+      .service-card {
+        min-height: 104px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 13px;
+        border-radius: 15px;
+      }
+      .service-icon { width: 58px; height: 58px; flex: 0 0 58px; margin: 0; }
+      .service-icon svg { width: 31px; height: 31px; }
+      .service-content { min-width: 0; flex: 1; }
+      .service-content h3 { font-size: 15px; line-height: 1.2; margin: 0 0 5px; }
+      .service-content p { font-size: 12px; line-height: 1.4; margin: 0; }
+      .card-arrow { display: grid; flex: 0 0 25px; width: 25px; height: 25px; }
+
+      .benefits { margin: 20px 12px 17px; grid-template-columns: 1fr 1fr; border-radius: 14px; }
+      .benefit { min-width: 0; min-height: 76px; gap: 8px; padding: 10px 8px; }
+      .benefit svg { width: 28px; height: 28px; flex: 0 0 28px; }
+      .benefit strong { font-size: 11px; line-height: 1.3; }
+      footer { padding: 0 12px 82px; gap: 10px; text-align: center; font-size: 11px; }
+      .assistant-fab { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
+    }
+
+    @media (max-width: 420px) {
+      .nav-preview-trigger { height: 74px; }
+      .nav-preview-label { font-size: 10px; }
+      .hero { padding: 27px 16px 185px; }
+      h1 { font-size: clamp(32px, 9vw, 39px); }
+      .hero-text { font-size: 14px; }
+      .section-wrap { padding-inline: 11px; }
+      .service-card { min-height: 98px; padding: 11px; gap: 10px; }
+      .service-icon { width: 52px; height: 52px; flex-basis: 52px; }
+      .service-content h3 { font-size: 14px; }
+      .service-content p { font-size: 11px; }
+      .benefits { grid-template-columns: 1fr; }
+      .benefit, .benefit:nth-child(odd) { min-height: 62px; border-right: 0; border-bottom: 1px solid rgba(71,174,255,.35); }
+      .benefit:last-child { border-bottom: 0; }
+      .ks-modal { padding: 7px; align-items: center; }
+      .ks-dialog, .ks-admin-dialog { width: 100%; max-width: 100%; max-height: 96dvh; border-radius: 13px; }
+      .ks-dialog-head { padding: 13px 14px; }
+      .ks-dialog-body { padding: 12px; }
+      .ks-admin-top { align-items: flex-start; flex-wrap: wrap; }
+      .ks-admin-layout { grid-template-columns: minmax(0,1fr); min-height: 0; }
+      .ks-inbox { max-height: 145px; min-height: 70px; }
+      .ks-messages { height: min(36dvh, 290px); min-height: 180px; max-height: 42dvh; padding: 10px; }
+      .ks-chat-toolbar { flex-wrap: wrap; }
+      .ks-chat-toolbar > div { min-width: 0; }
+      .ks-chat-toolbar strong { font-size: 14px; }
+      .ks-send-form { gap: 6px; }
+      .ks-send-form button { min-width: 70px; }
+      .ks-status-row { align-items: stretch; flex-direction: column; }
+      .ks-status-row button { min-height: 40px; }
+      .ks-bubble { max-width: 94%; font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+
   </style>
 </head>
 <body>
